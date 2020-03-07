@@ -1,0 +1,165 @@
+<resources>
+    <string name="app_name">Scheduling Share</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">设置</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="initial_nickname">游客%1$s</string>
+    <string name="notify_one_newMsg">您有一条新消息</string>
+    <string name="notify_request_addYou">请求添加你为朋友</string>
+
+
+
+    <!-- 登陆界面LoginActivity -->
+    <string name="prompt_phonenumber">账号</string>
+    <string name="prompt_password">密码</string>
+    <string name="action_sign_in">登录</string>
+    <string name="action_sign_in_short">登录</string>
+    <string name="error_invalid_userId">用户名不存在</string>
+    <string name="error_invalid_password">密码不得少于6位</string>
+    <string name="error_incorrect_password">密码不正确</string>
+    <string name="error_field_required">此项不能为空</string>
+    <string name="error_login_fail">登录失败，请重试</string>
+    <string name="login_register_tip">没有账号？点击注册</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+
+    <!-- 注册界面LoginActivity -->
+    <string name="register_phonenumber">账号(手机号)</string>
+    <string name="error_register_phonenumber">账号必须为手机号</string>
+    <string name="action_register">注册</string>
+    <string name="prompt_password_confirm">重复密码确认</string>
+    <string name="error_incorrect_password_confirm">两次密码不一致</string>
+    <string name="register_success">注册成功</string>
+    <string name="register_fail">注册失败，请重试</string>
+    <string name="register_tip">返回</string>
+
+    <!--设置界面SettingActivity-->
+    <string name="setting_toolbar_edit">编辑</string>
+    <string name="setting_back_to_login">退出登录</string>
+    <string name="setting_headIcon">头像</string>
+    <string name="setting_nickname">昵称</string>
+    <string name="setting_changepw">更换密码</string>
+    <string name="setting_email">修改邮箱</string>
+    <string name="setting_sexy">性别</string>
+    <string name="setting_age">年龄</string>
+    <string name="setting_area">地区</string>
+    <string name="setting_update_success">修改成功</string>
+    <string name="setting_update_fail">修改失败，请重试</string>
+    <string name="setting_sexy_dialog_title">选择性别</string>
+    <string name="setting_sexy_dialog_left_btn">取消</string>
+    <string name="setting_sexy_dialog_right_btn">确认</string>
+
+
+
+    <!--密码修改界面SettingPasswordActivity-->
+    <string name="setting_pw_ok">确认</string>
+    <string name="setting_pw_original">请输入原密码</string>
+    <string name="setting_pw_new">请输入新密码</string>
+    <string name="setting_pw_confirm">再次输入新密码</string>
+    <string name="setting_pw_error_origin">密码不正确，请重试</string>
+    <string name="setting_pw_error_new">密码长度不得小于6</string>
+    <string name="setting_pw_error_confirm">两次输入不一致，请重试</string>
+    <string name="dialog_changeHeadIcon_title">更换封面</string>
+    <string name="dialog_changeHeadIcon_camera">拍摄新图片</string>
+    <string name="dialog_changeHeadIcon_album">从相册选择图片</string>
+    <string name="dialog_sexy_male">男</string>
+    <string name="dialog_sexy_female">女</string>
+    <string name="dialog_sexy_secret">保密</string>
+
+
+    <!--通用修改界面SettingNormalActivity-->
+    <string name="setting_normal_hint_nickname">请输入新的昵称</string>
+    <string name="error_setting_normal_nickname">长度必须大于1</string>
+    <string name="setting_normal_hint_email">请输入新的邮箱</string>
+    <string name="error_setting_normal_email">请输入正确的邮箱</string>
+    <string name="setting_normal_hint_age">请输入年龄</string>
+    <string name="error_setting_normal_age">必须为数字</string>
+    <string name="setting_normal_hint_area">请输入您所在地域(如：珠海市)</string>
+    <string name="error_setting_normal_area">请输入正确的地区名</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_register">Register</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!--主界面MainActivity -->
+    <string name="dialog_add_friend_hint">请输入对方的手机号</string>
+    <string name="error_mistake_phoneNumber">请输入正确的手机号</string>
+    <string name="error_mistake_isUser">不能添加自己</string>
+    <string name="error_non_exist_user">用户不存在</string>
+    <string name="dialog_add_friend_title">添加好友</string>
+    <string name="dialog_add_friend_left_btn">取消</string>
+    <string name="dialog_add_friend_right_btn">确认</string>
+    <string name="tab_mainPage">首页</string>
+    <string name="tab_friendPage">好友</string>
+    <string name="tab_communityPage">发现</string>
+    <string name="tab_minePage">我的</string>
+    <!--侧拉栏内容-->
+    <string name="nav_logout">退出</string>
+    <string name="nav_retract">收起</string>
+    <string name="nav_userinfo_nickname">昵称：%1$s</string>
+
+
+    <!--好友列表FriendListFragment-->
+    <string name="friendlist_newfriend">新的朋友</string>
+    <string name="friendlist_friend_title">  好友列表</string>
+
+    <!--新的朋友界面NewFriendActivity-->
+    <string name="newfriendlist_item_adapter_positionKey">position</string>
+    <string name="newfriendlist_item_agree">同意</string>
+    <string name="newfriendlist_item_agreeAdd">已添加</string>
+    <string name="newfriendlist_toolbar">刷新</string>
+    <string name="error_newfriendlist_connect_fail">连接服务器失败，请稍后重试</string>
+    <string name="newfriendlist_agree_msg">我通过了你的好友验证请求，我们可以开始聊天了!</string>
+    <string name="newfriendlist_agree_notify">同意添加你为好友</string>
+    <string name="error_newfriendlist_addFriend_fail">添加好友失败</string>
+
+
+
+
+    <!--用户信息界面UserInfoActivity-->
+    <string name="userinfo_nickname">昵称：%1$s</string>
+    <string name="userinfo_phonenumber">手机：%1$s</string>
+    <string name="dialog_sendAddFriendMsg_title">发送好友申请</string>
+    <string name="dialog_sendAddFriendMsg_hint">我是%1$s,很高兴认识你，可以加个好友吗?</string>
+    <string name="dialog_sendAddFriendMsg_left_btn">取消</string>
+    <string name="dialog_sendAddFriendMsg_right_btn">确认</string>
+    <string name="userinfo_enter_personalPage">进入主页</string>
+    <string name="userinfo_addfriend">添加好友</string>
+    <string name="error_connect_fail">连接服务器失败，请稍后重试</string>
+    <string name="userinfo_sendAddFriendMsg_seccess">好友请求发送成功，等待验证</string>
+    <string name="userinfo_sendAddFriendMsg_fail">发送失败，请稍后重试</string>
+
+
+    <!--用户主页界面PersonalActivity-->
+    <string name="personal_list_item_startTxt">开始：</string>
+    <string name="personal_list_item_endTxt">结束：</string>
+
+
+    <!--显示详细行程内容界面ScheduleDetailActivity-->
+    <string name="schedule_detail_title">请输入标题内容</string>
+    <string name="schedule_detail_contint_hint">在这里输入内容</string>
+    <string name="schedule_detail_startTxt">开始时间：</string>
+    <string name="schedule_detail_endTxt">结束时间：</string>
+    <string name="schedule_detail_chooseDate">选择日期</string>
+    <string name="schedule_detail_chooseTime">选择时间</string>
+    <string name="schedule_detail_toolbar_menu_save">保存</string>
+    <string name="schedule_detail_dialog_choosePhoto_title">插入图片</string>
+    <string name="schedule_detail_dialog_choosePhoto_camera">拍摄新图片</string>
+    <string name="schedule_detail_dialog_choosePhoto_album">从相册中选择图片</string>
+    <string name="schedule_detail_dialog_Back_title">提示</string>
+    <string name="schedule_detail_dialog_Back_msg">退出将不会保存编辑内容，确认离开？</string>
+    <string name="schedule_detail_dialog_Back_left_btn">取消</string>
+    <string name="schedule_detail_dialog_Back_right_btn">确认</string>
+
+
+
+
+
+
+</resources>

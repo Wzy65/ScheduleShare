@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimaryDark">#2C2C2C</color><!--最顶端statusbar-->
+    <color name="colorPrimary">#F75000</color><!--APPbar-->
+    <color name="colorAccent">#FF4500</color><!--主题颜色-->
+
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black1">#2C2C2C</color>
+    <color name="black2">#4D4D4D</color>
+    <color name="black3">#7D7D7D</color>
+    <color name="gray1">#F4F4F4</color>
+    <color name="gray2">#E4E4E4</color>
+    <color name="gray3">#ABABAB</color>
+    <color name="green1">#00CD00</color>
+
+</resources>

@@ -1,0 +1,79 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.butterknife'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
+    defaultConfig {
+        applicationId "com.wzy.schedulingshare"
+        minSdkVersion 26
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true  //多重依赖
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    useLibrary 'org.apache.http.legacy'
+
+}
+
+/*加载aar文件所在目录*/
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    //compile 'com.android.support:multidex:1.0.1'  //多重依赖
+    compile 'com.android.support:appcompat-v7:27.1.0'
+    compile 'com.android.support:support-v4:27.1.0'
+    compile 'com.android.support:design:27.1.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    /*bmob服务器相关集成*/
+    compile 'cn.bmob.android:bmob-sdk:3.7.3-rc1'
+    compile 'io.reactivex.rxjava2:rxjava:2.2.2'
+    compile 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    compile 'com.squareup.okio:okio:2.1.0'
+    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'com.squareup.okhttp3:okhttp:3.12.0'
+
+    /*bmobIM相关集成*/
+    compile 'cn.bmob.android:bmob-im:2.1.4@aar'
+    compile 'cn.bmob.android:bmob-sdk:3.7.3'
+
+    /*图片工具*/
+    compile 'com.jph.takephoto:takephoto_library:4.0.3'
+    compile 'com.github.bumptech.glide:glide:4.9.0'
+
+    /*Logger日志打印框架*/
+    compile 'com.orhanobut:logger:2.2.0'
+
+    /*EventBus*/
+    compile 'org.greenrobot:eventbus:3.1.1'
+
+    /*腾讯云对象存储，用于上传图片*/
+    compile(name: 'logUtils-5.4.31', ext: 'aar')
+
+    /*富文本编辑器XRichText*/
+    compile('com.github.sendtion:XRichText:1.9.4') {
+        exclude group: 'com.android.support'  //原版用的是28
+    }
+
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+
+}
