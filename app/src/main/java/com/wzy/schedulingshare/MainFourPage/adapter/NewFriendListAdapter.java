@@ -3,6 +3,7 @@ package com.wzy.schedulingshare.MainFourPage.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.orhanobut.logger.Logger;
-import com.wzy.schedulingshare.MainFourPage.IMBmobUtils.Config;
+import com.wzy.schedulingshare.base.Utils.IMBmobUtils.Config;
 import com.wzy.schedulingshare.MainFourPage.modle.NewFriend;
 import com.wzy.schedulingshare.MainFourPage.presenter.inter.NewFriendPresenter;
 import com.wzy.schedulingshare.R;
@@ -63,7 +64,7 @@ public class NewFriendListAdapter extends RecyclerView.Adapter<NewFriendListAdap
 
         final NewFriend add=mList.get(position);
         Glide.with(mContext).
-                load(add.getAvatar()).
+                load(TextUtils.isEmpty(add.getAvatar())?null:add.getAvatar()).
                 error(R.drawable.ic_picture_error). //异常时候显示的图片
                 placeholder(R.drawable.ic_picture_placeholder).//加载成功前显示的图片
                 fallback(R.drawable.login_head).//url为空的时候,显示的图片

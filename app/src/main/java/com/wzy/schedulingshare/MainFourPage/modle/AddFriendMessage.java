@@ -3,7 +3,7 @@ package com.wzy.schedulingshare.MainFourPage.modle;
 import android.text.TextUtils;
 
 import com.orhanobut.logger.Logger;
-import com.wzy.schedulingshare.MainFourPage.IMBmobUtils.Config;
+import com.wzy.schedulingshare.base.Utils.IMBmobUtils.Config;
 
 import org.json.JSONObject;
 

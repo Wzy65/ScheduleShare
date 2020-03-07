@@ -1,4 +1,4 @@
-package com.wzy.schedulingshare.MainFourPage.IMBmobUtils;
+package com.wzy.schedulingshare.base.Utils.IMBmobUtils;
 
 /**
  * @ClassName Config

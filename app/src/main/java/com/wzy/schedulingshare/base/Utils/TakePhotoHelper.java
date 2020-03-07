@@ -27,13 +27,13 @@ public class TakePhotoHelper {
         initImageUri();
         // 默认配置，需要特定设置可以在新建 TakePhotoHelper 后调用
         // sumsung手机存在图片旋转角度问题，暂时没有解决
-        configCompress(true, 102400, 800, 800, false, false, false);
+        configCompress(true, 2*1024*1024, 800, 800, false, false, false);
         configTakePhotoOption(false, true);
     }
 
     private void initImageUri() {
         File file = new File(Environment.getExternalStorageDirectory(),
-                "/takephototemp/" + System.currentTimeMillis() + ".jpg");
+                "/ScheduleShareTemp/" + System.currentTimeMillis() + ".jpg");
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
@@ -44,12 +44,13 @@ public class TakePhotoHelper {
      * 拍照
      *
      * @param crop   是否裁切
+     * @param aspect 是否按照比例
      * @param width  宽
      * @param height 高
      */
-    public void onTakePhotos(boolean crop, int width, int height) {
+    public void onTakePhotos(boolean crop, boolean aspect, int width, int height) {
         if (crop) {
-            takePhoto.onPickFromCaptureWithCrop(imageUri, getCropOptions(true, true, false, width, height));
+            takePhoto.onPickFromCaptureWithCrop(imageUri, getCropOptions(true, true, aspect, width, height));
         } else {
             takePhoto.onPickFromCapture(imageUri);
         }
@@ -61,13 +62,14 @@ public class TakePhotoHelper {
      * @param imageType 图片选择途径（1：文件 2：相册）
      * @param etLimit   最多选择图片数量
      * @param crop      是否裁切
+     * @param aspect    是否按照比例
      * @param width     宽
      * @param height    高
      */
-    public void onSelectPictures(int imageType, int etLimit, boolean crop, int width, int height) {
+    public void onSelectPictures(int imageType, int etLimit, boolean crop, boolean aspect, int width, int height) {
         if (etLimit > 1) {
             if (crop) {
-                takePhoto.onPickMultipleWithCrop(etLimit, getCropOptions(true, true, false, width, height));
+                takePhoto.onPickMultipleWithCrop(etLimit, getCropOptions(true, true, aspect, width, height));
             } else {
                 takePhoto.onPickMultiple(etLimit);
             }
@@ -75,13 +77,13 @@ public class TakePhotoHelper {
         }
         if (imageType == 1) {
             if (crop) {
-                takePhoto.onPickFromDocumentsWithCrop(imageUri, getCropOptions(true, true, false, width, height));
+                takePhoto.onPickFromDocumentsWithCrop(imageUri, getCropOptions(true, true, aspect, width, height));
             } else {
                 takePhoto.onPickFromDocuments();
             }
         } else {
             if (crop) {
-                takePhoto.onPickFromGalleryWithCrop(imageUri, getCropOptions(true, true, false, width, height));
+                takePhoto.onPickFromGalleryWithCrop(imageUri, getCropOptions(true, true, aspect, width, height));
             } else {
                 takePhoto.onPickFromGallery();
             }

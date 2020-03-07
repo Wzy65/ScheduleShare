@@ -3,33 +3,18 @@ package com.wzy.schedulingshare.MainFourPage.presenter.impl;
 import android.support.annotation.NonNull;
 
 import com.orhanobut.logger.Logger;
-import com.wzy.schedulingshare.MainFourPage.IMBmobUtils.Config;
-import com.wzy.schedulingshare.MainFourPage.IMBmobUtils.NewFriendManager;
-import com.wzy.schedulingshare.MainFourPage.modle.AddFriendMessage;
-import com.wzy.schedulingshare.MainFourPage.modle.AgreeAddFriendMessage;
-import com.wzy.schedulingshare.MainFourPage.modle.NewFriend;
 import com.wzy.schedulingshare.MainFourPage.presenter.inter.FriendPagePresenter;
 import com.wzy.schedulingshare.MainFourPage.view.FriendListFragment;
 import com.wzy.schedulingshare.MainFourPage.modle.Friend;
 import com.wzy.schedulingshare.base.modle.User;
 import com.wzy.schedulingshare.base.presenter.impl.BasePresenter;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import cn.bmob.newim.BmobIM;
-import cn.bmob.newim.bean.BmobIMConversation;
-import cn.bmob.newim.bean.BmobIMMessage;
-import cn.bmob.newim.bean.BmobIMUserInfo;
-import cn.bmob.newim.core.BmobIMClient;
-import cn.bmob.newim.core.ConnectionStatus;
-import cn.bmob.newim.listener.MessageSendListener;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 /**

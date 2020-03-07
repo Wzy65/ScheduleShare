@@ -153,7 +153,7 @@
     <string name="schedule_detail_dialog_choosePhoto_camera">拍摄新图片</string>
     <string name="schedule_detail_dialog_choosePhoto_album">从相册中选择图片</string>
     <string name="schedule_detail_dialog_Back_title">提示</string>
-    <string name="schedule_detail_dialog_Back_msg">退出将不会保存编辑内容，确认离开？</string>
+    <string name="schedule_detail_dialog_Back_msg">退出将自动保存为草稿，确认离开？</string>
     <string name="schedule_detail_dialog_Back_left_btn">取消</string>
     <string name="schedule_detail_dialog_Back_right_btn">确认</string>
 

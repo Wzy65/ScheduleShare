@@ -2,10 +2,12 @@ package com.wzy.schedulingshare.base.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
 import com.wzy.schedulingshare.base.Utils.TakePhotoHelper;
+
 import java.util.ArrayList;
 
 /**
@@ -16,7 +18,7 @@ import java.util.ArrayList;
  */
 public class TakePhotosActivity extends TakePhotoActivity {
     public static final String TAKEPHOTO_TYPE = "TakePhoto_type";
-    public static final String TakePhotoActivity_Intent_Key="TakePhotosActivity_image";
+    public static final String TakePhotoActivity_Intent_Key = "TakePhotosActivity_image";
     public static final int ON_TAKEPHOTOS = 1;
     public static final int ON_SELECTPICTURES = 2;
     private TakePhotoHelper takePhotoHelper;
@@ -26,9 +28,9 @@ public class TakePhotosActivity extends TakePhotoActivity {
         super.onCreate(savedInstanceState);
         takePhotoHelper = new TakePhotoHelper(getTakePhoto());
         if (getIntent().getIntExtra(TAKEPHOTO_TYPE, ON_SELECTPICTURES) == ON_SELECTPICTURES) {
-            takePhotoHelper.onSelectPictures(2, 1, true, 400, 400);
+            takePhotoHelper.onSelectPictures(2, 1, true, true, 1, 1);
         } else {
-            takePhotoHelper.onTakePhotos(true, 400, 400);
+            takePhotoHelper.onTakePhotos(true, true, 1, 1);
         }
     }
 

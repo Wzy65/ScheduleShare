@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.orhanobut.logger.Logger;
-import com.wzy.schedulingshare.MainFourPage.IMBmobUtils.NewFriendManager;
+import com.wzy.schedulingshare.base.Utils.IMBmobUtils.NewFriendManager;
 import com.wzy.schedulingshare.MainFourPage.adapter.FriendListAdapter;
 import com.wzy.schedulingshare.MainFourPage.event.RefreshFriendListEvent;
 import com.wzy.schedulingshare.MainFourPage.event.RefreshNewFriendEvent;
@@ -20,22 +20,17 @@ import com.wzy.schedulingshare.MainFourPage.modle.Friend;
 import com.wzy.schedulingshare.MainFourPage.presenter.impl.FriendPagePresenterImpl;
 import com.wzy.schedulingshare.MainFourPage.presenter.inter.FriendPagePresenter;
 import com.wzy.schedulingshare.R;
-import com.wzy.schedulingshare.base.modle.User;
 import com.wzy.schedulingshare.base.view.impl.BaseFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
-import cn.bmob.newim.bean.BmobIMUserInfo;
-import cn.bmob.v3.BmobUser;
 
 
 public class FriendListFragment extends BaseFragment<FriendPagePresenter> implements FriendPagePresenter.View {

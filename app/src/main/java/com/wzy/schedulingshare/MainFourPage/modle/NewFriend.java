@@ -15,6 +15,20 @@ import java.io.Serializable;
 * */
 public class NewFriend implements Serializable {
 
+    private Long id;
+    //用户uid
+    private String uid;
+    //留言消息
+    private String msg;
+    //用户名
+    private String name;
+    //头像
+    private String avatar;
+    //状态：未读、已读、已添加、已拒绝等
+    private Integer status;
+    //请求时间
+    private Long time;
+
     public NewFriend() {
     }
 
@@ -32,19 +46,6 @@ public class NewFriend implements Serializable {
         this.time = time;
     }
 
-    private Long id;
-    //用户uid
-    private String uid;
-    //留言消息
-    private String msg;
-    //用户名
-    private String name;
-    //头像
-    private String avatar;
-    //状态：未读、已读、已添加、已拒绝等
-    private Integer status;
-    //请求时间
-    private Long time;
 
     public Long getId() {
         return id;

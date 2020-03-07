@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,10 +15,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.orhanobut.logger.Logger;
-import com.wzy.schedulingshare.MainFourPage.IMBmobUtils.NewFriendManager;
+import com.wzy.schedulingshare.base.Utils.IMBmobUtils.NewFriendManager;
 import com.wzy.schedulingshare.MainFourPage.adapter.NewFriendListAdapter;
 import com.wzy.schedulingshare.MainFourPage.event.RefreshFriendListEvent;
-import com.wzy.schedulingshare.MainFourPage.modle.Friend;
 import com.wzy.schedulingshare.MainFourPage.modle.NewFriend;
 import com.wzy.schedulingshare.MainFourPage.presenter.impl.NewFriendPresenterImpl;
 import com.wzy.schedulingshare.MainFourPage.presenter.inter.NewFriendPresenter;
@@ -31,7 +29,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * @ClassName NewFriendActivity

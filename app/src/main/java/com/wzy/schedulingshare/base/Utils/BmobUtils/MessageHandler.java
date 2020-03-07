@@ -8,10 +8,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
-import com.wzy.schedulingshare.MainFourPage.IMBmobUtils.NewFriendManager;
+import com.wzy.schedulingshare.base.Utils.IMBmobUtils.NewFriendManager;
 import com.wzy.schedulingshare.MainFourPage.event.RefreshNewFriendEvent;
 import com.wzy.schedulingshare.MainFourPage.modle.AddFriendMessage;
 import com.wzy.schedulingshare.MainFourPage.modle.AgreeAddFriendMessage;
@@ -20,7 +19,6 @@ import com.wzy.schedulingshare.MainFourPage.modle.NewFriend;
 import com.wzy.schedulingshare.MainFourPage.view.MainActivity;
 import com.wzy.schedulingshare.MainFourPage.view.NewFriendActivity;
 import com.wzy.schedulingshare.R;
-import com.wzy.schedulingshare.base.event.RefreshEvent;
 import com.wzy.schedulingshare.base.modle.User;
 
 import org.greenrobot.eventbus.EventBus;
@@ -38,7 +36,6 @@ import cn.bmob.newim.notification.BmobNotificationManager;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
-import io.reactivex.Notification;
 
 /**
  * @ClassName MessageHandler

@@ -3,8 +3,8 @@ package com.wzy.schedulingshare.MainFourPage.presenter.impl;
 import android.support.annotation.NonNull;
 
 import com.orhanobut.logger.Logger;
-import com.wzy.schedulingshare.MainFourPage.IMBmobUtils.Config;
-import com.wzy.schedulingshare.MainFourPage.IMBmobUtils.NewFriendManager;
+import com.wzy.schedulingshare.base.Utils.IMBmobUtils.Config;
+import com.wzy.schedulingshare.base.Utils.IMBmobUtils.NewFriendManager;
 import com.wzy.schedulingshare.MainFourPage.modle.AgreeAddFriendMessage;
 import com.wzy.schedulingshare.MainFourPage.modle.Friend;
 import com.wzy.schedulingshare.MainFourPage.modle.NewFriend;
