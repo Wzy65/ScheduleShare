@@ -63,9 +63,10 @@ public class NewFriendListAdapter extends RecyclerView.Adapter<NewFriendListAdap
         holder.itemView.setTag(R.string.newfriendlist_item_adapter_positionKey,position); //绑定Tag，用于识别点击itemView时的位置
 
         final NewFriend add=mList.get(position);
+        Logger.i("好友请求的头像地址："+add.getAvatar());
         Glide.with(mContext).
                 load(TextUtils.isEmpty(add.getAvatar())?null:add.getAvatar()).
-                error(R.drawable.ic_picture_error). //异常时候显示的图片
+                error(R.drawable.login_head). //异常时候显示的图片
                 placeholder(R.drawable.ic_picture_placeholder).//加载成功前显示的图片
                 fallback(R.drawable.login_head).//url为空的时候,显示的图片
                 apply(RequestOptions.bitmapTransform(new CircleCrop())).
@@ -77,7 +78,7 @@ public class NewFriendListAdapter extends RecyclerView.Adapter<NewFriendListAdap
         Integer status=add.getStatus();
         if (status == null || status == Config.STATUS_VERIFY_NONE || status == Config.STATUS_VERIFY_READED) {
             holder.btn.setText(mContext.getString(R.string.newfriendlist_item_agree));
-            holder.btn.setBackground(mContext.getDrawable(R.drawable.btn_radius5_border_bg_green));
+            holder.btn.setBackground(mContext.getDrawable(R.drawable.btn_press_ripple_bg_green));
             holder.btn.setEnabled(true);
             holder.btn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -91,7 +92,7 @@ public class NewFriendListAdapter extends RecyclerView.Adapter<NewFriendListAdap
                                 holder.btn.setEnabled(false);
                             } else {
                                 holder.btn.setText(mContext.getString(R.string.newfriendlist_item_agree));
-                                holder.btn.setBackground(mContext.getDrawable(R.drawable.btn_radius5_border_bg_green));
+                                holder.btn.setBackground(mContext.getDrawable(R.drawable.btn_press_ripple_bg_green));
                                 holder.btn.setEnabled(true);
                                 Logger.e("添加好友失败:" + e.getMessage());
                             }
@@ -117,14 +118,14 @@ public class NewFriendListAdapter extends RecyclerView.Adapter<NewFriendListAdap
         ImageView headIcon;
         TextView nickName;
         TextView msg;
-        Button btn;
+        TextView btn;
 
         public FriendViewHolder(View itemView) {
             super(itemView);
             headIcon=(ImageView)itemView.findViewById(R.id.newfriend_item_img);
             nickName=(TextView)itemView.findViewById(R.id.newfriend_item_nickname);
             msg=(TextView)itemView.findViewById(R.id.newfriend_item_msg);
-            btn=(Button)itemView.findViewById(R.id.newfriend_item_btn);
+            btn=(TextView) itemView.findViewById(R.id.newfriend_item_btn);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

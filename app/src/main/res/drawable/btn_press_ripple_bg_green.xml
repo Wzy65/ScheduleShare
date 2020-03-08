@@ -3,13 +3,9 @@
         android:color="@color/gray2"> <!--波纹颜色-->
     <item>
         <shape android:shape="rectangle">
-            <!--边角圆弧-->
-            <corners android:radius="8dip"/>
+            <corners android:radius="5dip"/>
             <!-- 填充背景色-->
-            <solid android:color="@color/white"/>
-            <!--边缘线框-->
-<!--            <stroke android:width="2dip"
-                    android:color="@color/black3"/>-->
+            <solid android:color="@color/green1"/>
         </shape>
     </item>
 </ripple>

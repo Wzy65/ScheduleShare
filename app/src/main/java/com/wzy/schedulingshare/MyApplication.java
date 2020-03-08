@@ -18,7 +18,7 @@ import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.sendtion.xrichtext.IImageLoader;
 import com.sendtion.xrichtext.XRichText;
-import com.wzy.schedulingshare.base.Utils.BmobUtils.MessageHandler;
+import com.wzy.schedulingshare.base.Utils.IMBmobUtils.MessageHandler;
 import com.wzy.schedulingshare.base.Utils.TransformationScale;
 
 import java.io.BufferedReader;
@@ -120,7 +120,7 @@ public class MyApplication extends Application {
                                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                                     if (imageHeight > 0) {//固定高度
                                         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                                                FrameLayout.LayoutParams.MATCH_PARENT, imageHeight);//固定图片高度，记得设置裁剪剧中
+                                                FrameLayout.LayoutParams.WRAP_CONTENT, imageHeight);//固定图片高度，记得设置裁剪剧中
                                         lp.bottomMargin = 10;//图片的底边距
                                         imageView.setLayoutParams(lp);
                                         Glide.with(getApplicationContext()).asBitmap().load(imagePath).centerCrop()
@@ -134,7 +134,7 @@ public class MyApplication extends Application {
                 } else { //如果是本地图片
                     if (imageHeight > 0) {//固定高度
                         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                                FrameLayout.LayoutParams.MATCH_PARENT, imageHeight);//固定图片高度，记得设置裁剪剧中
+                                FrameLayout.LayoutParams.WRAP_CONTENT, imageHeight);//固定图片高度，记得设置裁剪剧中
                         lp.bottomMargin = 10;//图片的底边距
                         imageView.setLayoutParams(lp);
 

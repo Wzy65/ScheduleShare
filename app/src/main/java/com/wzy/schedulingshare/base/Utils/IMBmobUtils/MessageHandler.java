@@ -1,4 +1,4 @@
-package com.wzy.schedulingshare.base.Utils.BmobUtils;
+package com.wzy.schedulingshare.base.Utils.IMBmobUtils;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 
 import com.orhanobut.logger.Logger;
+import com.wzy.schedulingshare.MainFourPage.event.RefreshFriendListEvent;
 import com.wzy.schedulingshare.base.Utils.IMBmobUtils.NewFriendManager;
 import com.wzy.schedulingshare.MainFourPage.event.RefreshNewFriendEvent;
 import com.wzy.schedulingshare.MainFourPage.modle.AddFriendMessage;
@@ -136,8 +137,6 @@ public class MessageHandler extends BmobIMMessageHandler {
     private void processCustomMessage(BmobIMMessage msg, BmobIMUserInfo info) {
         //消息类型
         String type = msg.getMsgType();
-        //发送页面刷新的广播
-        EventBus.getDefault().post(new RefreshNewFriendEvent());
         //处理消息
         if (type.equals(AddFriendMessage.ADD)) {//接收到的添加好友的请求
             NewFriend friend = AddFriendMessage.convert(msg);
@@ -145,12 +144,15 @@ public class MessageHandler extends BmobIMMessageHandler {
             long id = NewFriendManager.getInstance(context).insertOrUpdateNewFriend(friend);
             if (id > 0) {
                 showAddNotify(friend);
+                //发送页面刷新的广播
+                EventBus.getDefault().post(new RefreshNewFriendEvent());
             }
         } else if (type.equals(AgreeAddFriendMessage.AGREE)) {//接收到的对方同意添加自己为好友,此时需要做的事情：1、添加对方为好友，2、显示通知
-                AgreeAddFriendMessage agree = AgreeAddFriendMessage.convert(msg);
-                addFriend(agree.getFromId());//添加消息的发送方为好友
-                showAgreeNotify(info, agree);
-
+            AgreeAddFriendMessage agree = AgreeAddFriendMessage.convert(msg);
+            addFriend(agree.getFromId());//添加消息的发送方为好友
+            showAgreeNotify(info, agree);
+            //发送页面刷新的广播
+            EventBus.getDefault().post(new RefreshFriendListEvent());
         } else {
             //Toast.makeText(context, "接收到的自定义消息：" + msg.getMsgType() + "," + msg.getContent() + "," + msg.getExtra(), Toast.LENGTH_SHORT).show();
         }
@@ -186,8 +188,8 @@ public class MessageHandler extends BmobIMMessageHandler {
     /*
     * 设置悬挂式通知(Bmob原本就实现了，这个就当学习了)
     * */
-    private void showHangNotify(Class<?> cls,String title,String msg){
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
+    private void showHangNotify(Class<?> cls, String title, String msg) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             android.app.Notification.Builder builder = new android.app.Notification.Builder(context);
             Intent intent = new Intent(context, cls);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -198,15 +200,15 @@ public class MessageHandler extends BmobIMMessageHandler {
             builder.setAutoCancel(true);
             builder.setContentTitle(title);
             builder.setContentText(msg);
-            builder.setFullScreenIntent(hangIntent,true);
+            builder.setFullScreenIntent(hangIntent, true);
 
-            android.app.Notification notification=builder.build();
-            NotificationManager manager=(NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {
+            android.app.Notification notification = builder.build();
+            NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel channel = new NotificationChannel("newFriend", "好友通知", NotificationManager.IMPORTANCE_HIGH);
                 manager.createNotificationChannel(channel);
             }
-            manager.notify(0,notification);
+            manager.notify(0, notification);
         }
     }
 

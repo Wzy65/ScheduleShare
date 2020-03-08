@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/personal_schedule_detail_menu_save"
+        android:title="@string/schedule_detail_toolbar_menu_save"
+        app:showAsAction="ifRoom|withText"/>
+    <item
+    android:id="@+id/personal_schedule_detail_menu_share"
+    android:title="@string/schedule_detail_toolbar_menu_share"
+    app:showAsAction="ifRoom|withText"/>
+
+    <item
+        android:id="@+id/personal_schedule_detail_menu_share_cancel"
+        android:title="@string/schedule_detail_toolbar_menu_cancel_share"
+        app:showAsAction="ifRoom|withText"/>
+
+</menu>

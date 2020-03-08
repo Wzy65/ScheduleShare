@@ -22,19 +22,28 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <ImageView
+        android:id="@+id/schedule_detail_choosePhoto"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/ic_add_photo"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
 
         <LinearLayout
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
+            android:background="@drawable/layout_radius_border_bg_white"
             android:orientation="vertical"
-            android:background="@drawable/btn_radius5_border_bg_white"
             >
 
             <LinearLayout
@@ -50,8 +59,9 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
-                    android:hint="@string/schedule_detail_title"
                     android:background="@color/white"
+                    android:hint="@string/schedule_detail_title"
+                    android:maxLength="20"
                     android:textColor="@color/black2"
                     android:textSize="18sp"
                     />
@@ -99,7 +109,7 @@
 
             </LinearLayout>
 
-            <include layout="@layout/schedule_detail_content"/>
+            <include layout="@layout/personal_schedule_detail_content"/>
 
         </LinearLayout>
 

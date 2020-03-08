@@ -50,6 +50,7 @@
                     android:inputType="phone"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:maxLength="11"
                     android:textColor="@color/white"
                     android:textColorHint="@color/colorPrimary"/>
 

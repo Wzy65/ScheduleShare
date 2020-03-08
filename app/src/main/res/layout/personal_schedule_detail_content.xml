@@ -93,21 +93,13 @@
         android:background="@color/gray2">
     </View>
 
-    <ImageView
-        android:id="@+id/schedule_detail_choosePhoto"
-        android:layout_marginLeft="25dp"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:src="@drawable/ic_add_photo"/>
-
-
     <com.sendtion.xrichtext.RichTextEditor
         android:id="@+id/schedule_detail_contnt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="20dp"
         app:rt_editor_image_bottom="10"
-        app:rt_editor_image_height="0"
+        app:rt_editor_image_height="200"
         app:rt_editor_text_color="@color/black2"
         app:rt_editor_text_init_hint="@string/schedule_detail_contint_hint"
         app:rt_editor_text_line_space="6dp"

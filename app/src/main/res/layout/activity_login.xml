@@ -63,6 +63,7 @@
                     android:singleLine="true"
                     android:textColor="@color/white"
                     android:textColorHint="@color/colorPrimary"
+                    android:maxLength="11"
                     />
 
             </android.support.design.widget.TextInputLayout>

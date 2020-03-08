@@ -18,10 +18,11 @@ public class ScheduleDetail extends BmobObject {
 
     private String title;  //标题
     private String content; //内容
+    private String brief;  //用于在list界面的content的简略信息
     private String startAt;  //事件开始时间
     private String endAT; //事件结束时间
     private User auth;   //作者
-    private String status;  //状态码，备用
+    private String status;  //状态码，0:未分享  1::已分享
     //TODO 评论
 
     public String getTitle() {
@@ -38,6 +39,14 @@ public class ScheduleDetail extends BmobObject {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getBrief() {
+        return brief;
+    }
+
+    public void setBrief(String brief) {
+        this.brief = brief;
     }
 
     public String getStartAt() {

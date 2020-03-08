@@ -12,6 +12,7 @@ import com.wzy.schedulingshare.R;
 import com.wzy.schedulingshare.base.modle.User;
 import com.wzy.schedulingshare.base.presenter.impl.BasePresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -79,7 +80,14 @@ public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> imple
 
     private void checkAddAlready(final User user){
         BmobQuery<Friend> bmobQuery = new BmobQuery<>();
-        bmobQuery.addWhereEqualTo("friendUser", BmobUser.getCurrentUser(User.class));
+        BmobQuery<Friend> bq1=new BmobQuery<>();
+        bq1.addWhereEqualTo("user", user);
+        BmobQuery<Friend> bq2=new BmobQuery<>();
+        bq2.addWhereEqualTo("friendUser", BmobUser.getCurrentUser(User.class));
+        List<BmobQuery<Friend>> list=new ArrayList<>();
+        list.add(bq1);
+        list.add(bq2);
+        bmobQuery.and(list);  //复合查询
         bmobQuery.findObjects(new FindListener<Friend>() {
             @Override
             public void done(List<Friend> object, BmobException e) {
@@ -87,11 +95,14 @@ public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> imple
                 if(object==null || object.size()==0){
                     flag=e==null;   //查询成功后，从Friend表找不到关联，说明该用户不是本地用户的好友，新页面展示添加按钮。
                 }
+                Logger.i("查找到"+object.size()+"个好友"+flag);
                 Intent intent=new Intent(mView, UserInfoActivity.class);
                 intent.putExtra(UserInfoActivity.UserInfoKey,user);
                 intent.putExtra(UserInfoActivity.ShowAddFriendKey,flag);
                 mView.startActivity(intent);
-                Logger.i(e.getMessage());
+                if(e!=null) {
+                    Logger.i(e.getMessage());
+                }
             }
         });
     }

@@ -13,7 +13,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:src="@drawable/ic_newfriend"/>
+        />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -39,13 +39,17 @@
 
     </LinearLayout>
 
-    <Button
+    <TextView
         android:id="@+id/newfriend_item_btn"
-        android:layout_width="50dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:background="@drawable/btn_radius5_border_bg_green"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@drawable/btn_press_ripple_bg_green"
         android:gravity="center"
         android:text="已取消"
         android:textColor="@color/black2"

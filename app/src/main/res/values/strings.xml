@@ -8,6 +8,7 @@
     <string name="initial_nickname">游客%1$s</string>
     <string name="notify_one_newMsg">您有一条新消息</string>
     <string name="notify_request_addYou">请求添加你为朋友</string>
+    <string name="pop_menu_delete_txt">删除</string>
 
 
 
@@ -108,6 +109,12 @@
     <!--好友列表FriendListFragment-->
     <string name="friendlist_newfriend">新的朋友</string>
     <string name="friendlist_friend_title">  好友列表</string>
+    <string name="friendlist_dialog_title">提示</string>
+    <string name="friendlist_dialog_msg">确定删除该好友？</string>
+    <string name="friendlist_dialog_right_btn">确定</string>
+    <string name="friendlist_dialog_left_btn">取消</string>
+    <string name="friendlist_dialog_delete_success">成功删除好友</string>
+
 
     <!--新的朋友界面NewFriendActivity-->
     <string name="newfriendlist_item_adapter_positionKey">position</string>
@@ -119,6 +126,15 @@
     <string name="newfriendlist_agree_notify">同意添加你为好友</string>
     <string name="error_newfriendlist_addFriend_fail">添加好友失败</string>
 
+
+    <!--个人行程信息界面PersonalPageFragment-->
+    <string name="personal_page_all">全部</string>
+    <string name="personal_page_share">已分享</string>
+    <string name="personal_page_dialog_title">提示</string>
+    <string name="personal_page_dialog_msg">确定删除该行程？</string>
+    <string name="personal_page_dialog_left_btn">取消</string>
+    <string name="personal_page_dialog_right_btn">确定</string>
+    <string name="personal_page_delete_success">成功删除行程</string>
 
 
 
@@ -142,20 +158,33 @@
 
 
     <!--显示详细行程内容界面ScheduleDetailActivity-->
-    <string name="schedule_detail_title">请输入标题内容</string>
+    <string name="schedule_detail_title">请输入标题内容，不得多于20字</string>
     <string name="schedule_detail_contint_hint">在这里输入内容</string>
     <string name="schedule_detail_startTxt">开始时间：</string>
     <string name="schedule_detail_endTxt">结束时间：</string>
     <string name="schedule_detail_chooseDate">选择日期</string>
     <string name="schedule_detail_chooseTime">选择时间</string>
     <string name="schedule_detail_toolbar_menu_save">保存</string>
+    <string name="schedule_detail_toolbar_menu_edit">编辑</string>
+    <string name="schedule_detail_toolbar_menu_collect">收藏</string>
+    <string name="schedule_detail_toolbar_menu_share">分享</string>
+    <string name="schedule_detail_toolbar_menu_cancel_share">取消分享</string>
     <string name="schedule_detail_dialog_choosePhoto_title">插入图片</string>
     <string name="schedule_detail_dialog_choosePhoto_camera">拍摄新图片</string>
     <string name="schedule_detail_dialog_choosePhoto_album">从相册中选择图片</string>
     <string name="schedule_detail_dialog_Back_title">提示</string>
     <string name="schedule_detail_dialog_Back_msg">退出将自动保存为草稿，确认离开？</string>
-    <string name="schedule_detail_dialog_Back_left_btn">取消</string>
+    <string name="schedule_detail_dialog_Back_left_btn">放弃保存</string>
     <string name="schedule_detail_dialog_Back_right_btn">确认</string>
+    <string name="schedule_detail_save_success">保存成功</string>
+    <string name="schedule_detail_dialog_cancelshare_title">提示</string>
+    <string name="schedule_detail_dialog_cancelshare_msg">确认取消分享？</string>
+    <string name="schedule_detail_dialog_cancelshare_left_btn">我再想想</string>
+    <string name="schedule_detail_dialog_cancelshare_right_btn">确认</string>
+    <string name="schedule_detail_toast_already_share_success">成功分享</string>
+    <string name="schedule_detail_toast_cancle_share">已取消分享</string>
+
+
 
 
 

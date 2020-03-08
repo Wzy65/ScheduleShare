@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.wzy.schedulingshare.Fragment1">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.wzy.schedulingshare.Fragment1">
 
     <View
         android:layout_width="match_parent"
@@ -14,55 +14,57 @@
     <LinearLayout
         android:id="@+id/friend_newFriend"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:background="@drawable/btn_press_ripple_bg_white"
         android:gravity="center_vertical"
-        android:background="@drawable/btn_press_ripple_bg_white">
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="8dp"
             android:src="@drawable/ic_newfriend"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:paddingLeft="10dp"
             android:text="@string/friendlist_newfriend"
             android:textColor="@color/black2"
-            android:paddingLeft="10dp"
             android:textSize="25sp"/>
 
         <ImageView
             android:id="@+id/newFriend_redpoint"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/ic_red_point"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:background="@drawable/ic_red_point"
             android:visibility="gone"
             />
 
     </LinearLayout>
 
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="20dp"
-    android:text="@string/friendlist_friend_title"
-    android:layout_below="@+id/friend_newFriend"
-    android:textSize="15dp"
-    android:background="@color/gray2"
-    android:gravity="center_vertical"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_below="@+id/friend_newFriend"
+        android:background="@color/gray2"
+        android:gravity="center_vertical"
+        android:text="@string/friendlist_friend_title"
+        android:textSize="15dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/friend_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/friend_newFriend">
+        android:layout_below="@+id/friend_newFriend"
+        android:layout_marginTop="20dp">
 
     </android.support.v7.widget.RecyclerView>
 

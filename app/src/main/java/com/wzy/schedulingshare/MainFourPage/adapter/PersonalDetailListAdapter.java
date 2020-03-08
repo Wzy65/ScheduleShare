@@ -14,55 +14,60 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.wzy.schedulingshare.MainFourPage.modle.Friend;
+import com.wzy.schedulingshare.MainFourPage.modle.ScheduleDetail;
 import com.wzy.schedulingshare.R;
+import com.wzy.schedulingshare.base.Utils.DateUtils;
 
 import java.util.List;
 
-import butterknife.ButterKnife;
-
 /**
- * @ClassName FriendListAdapter
+ * @ClassName PersonalDetailListAdapter
  * @Author Wei Zhouye
  * @Date 2020/3/2
  * @Version 1.0
  */
-public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.FriendViewHolder> {
+public class PersonalDetailListAdapter extends RecyclerView.Adapter<PersonalDetailListAdapter.PersonalDetailViewHolder> {
 
     private Context mContext;
-    private List<Friend> mList;
+    private List<ScheduleDetail> mList;
     private OnItemClickListener mListener;
 
 
-    public FriendListAdapter(Context context, List<Friend> list) {
+    public PersonalDetailListAdapter(Context context, List<ScheduleDetail> list) {
         mContext = context;
         mList = list;
     }
 
-    public void setDataList(List<Friend> list) {
+    public void setDataList(List<ScheduleDetail> list) {
         mList = list;
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public FriendViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(mContext).inflate(R.layout.friend_list_item, parent, false);
-        return new FriendViewHolder(itemView);
+    public PersonalDetailViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(mContext).inflate(R.layout.personal_list_item, parent, false);
+        return new PersonalDetailViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FriendViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PersonalDetailViewHolder holder, int position) {
         holder.itemView.setTag(R.string.newfriendlist_item_adapter_positionKey,position); //绑定Tag，用于识别点击itemView时的位置
 
         Glide.with(mContext).
-                load(mList.get(position).getFriendUser().getHeadIcon()).
+                load(mList.get(position).getAuth().getHeadIcon()).
                 error(R.drawable.ic_picture_error). //异常时候显示的图片
                 placeholder(R.drawable.ic_picture_placeholder).//加载成功前显示的图片
                 fallback(R.drawable.login_head).//url为空的时候,显示的图片
                 apply(RequestOptions.bitmapTransform(new CircleCrop())).
                 signature(new ObjectKey(System.currentTimeMillis())). //增加版本号，避免同一名称缓存不更新
-                into(holder.mFriendlistHeadIcon);
-        holder.mFriendlistNickname.setText(mList.get(position).getFriendUser().getNickname());
+                into(holder.Icon);
+        holder.title.setText(mList.get(position).getTitle());
+        holder.content.setText(mList.get(position).getBrief());
+        holder.updateAt.setText(DateUtils.getDateToString(Long.valueOf(mList.get(position).getUpdatedAt())));
+        holder.startAt.setText(DateUtils.getDateToString(Long.valueOf(mList.get(position).getStartAt())));
+        holder.endAt.setText(DateUtils.getDateToString(Long.valueOf(mList.get(position).getEndAT())));
+
     }
 
     @Override
@@ -71,14 +76,23 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
     }
 
 
-    public class FriendViewHolder extends RecyclerView.ViewHolder {
-        ImageView mFriendlistHeadIcon;
-        TextView mFriendlistNickname;
+    public class PersonalDetailViewHolder extends RecyclerView.ViewHolder {
+        TextView title;
+        TextView updateAt;
+        ImageView Icon;
+        TextView content;
+        TextView startAt;
+        TextView endAt;
 
-        public FriendViewHolder(final View itemView) {
+        public PersonalDetailViewHolder(final View itemView) {
             super(itemView);
-            mFriendlistHeadIcon=(ImageView)itemView.findViewById(R.id.friendlist_headIcon);
-            mFriendlistNickname=(TextView)itemView.findViewById(R.id.friendlist_nickname);
+            Icon=(ImageView)itemView.findViewById(R.id.personal_list_item_userIcon);
+            title=(TextView)itemView.findViewById(R.id.personal_list_item_title);
+            updateAt=(TextView)itemView.findViewById(R.id.personal_list_item_updateAt);
+            content=(TextView)itemView.findViewById(R.id.personal_list_item_content);
+            startAt=(TextView)itemView.findViewById(R.id.personal_list_item_startAt);
+            endAt=(TextView)itemView.findViewById(R.id.personal_list_item_endAt);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -114,6 +128,6 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
 
     public interface OnItemClickListener {
         void onItemClick(int position);
-        void onItemLongClick(int position,View view);
+        void onItemLongClick(int position, View view);
     }
 }

@@ -40,6 +40,7 @@ import com.wzy.schedulingshare.MainFourPage.adapter.TitleFragmentPagerAdapter;
 import com.wzy.schedulingshare.MainFourPage.event.RefreshFriendListEvent;
 import com.wzy.schedulingshare.MainFourPage.event.RefreshNewFriendEvent;
 import com.wzy.schedulingshare.MainFourPage.event.RefreshUserEvent;
+import com.wzy.schedulingshare.MainFourPage.event.ShowProgressEvent;
 import com.wzy.schedulingshare.MainFourPage.presenter.impl.MainFourPagePresenterImpl;
 import com.wzy.schedulingshare.MainFourPage.presenter.inter.MainFourPagePresenter;
 import com.wzy.schedulingshare.R;
@@ -129,7 +130,7 @@ public class MainActivity extends BaseActivity<MainFourPagePresenter> implements
         fragments.add(new Fragment1());
         fragments.add(new FriendListFragment());
         fragments.add(new Fragment3());
-        fragments.add(new Fragment4());
+        fragments.add(new PersonalDetailFragment());
 
         String[] titles = new String[]{getString(R.string.tab_mainPage), getString(R.string.tab_friendPage), getString(R.string.tab_communityPage), getString(R.string.tab_minePage)};
 
@@ -141,14 +142,14 @@ public class MainActivity extends BaseActivity<MainFourPagePresenter> implements
         mTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 1 || tab.getPosition()==3) {
+                if (tab.getPosition() == 1 || tab.getPosition() == 3) {
                     invalidateOptionsMenu();
                 }
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 1 || tab.getPosition()==3) {
+                if (tab.getPosition() == 1 || tab.getPosition() == 3) {
                     invalidateOptionsMenu();
                 }
             }
@@ -189,8 +190,8 @@ public class MainActivity extends BaseActivity<MainFourPagePresenter> implements
     /*
     * 刷新侧拉栏的用户信息，因为有可能经常变，所以单独拿出来，方便在其他地方调用
     * */
-    private void refreshNavUser(){
-        User user= BmobUser.getCurrentUser(User.class);
+    private void refreshNavUser() {
+        User user = BmobUser.getCurrentUser(User.class);
         Glide.with(this).
                 load(user.getHeadIcon()).
                 error(R.drawable.ic_picture_error). //异常时候显示的图片
@@ -199,7 +200,7 @@ public class MainActivity extends BaseActivity<MainFourPagePresenter> implements
                 apply(RequestOptions.bitmapTransform(new CircleCrop())). //显示圆形
                 signature(new ObjectKey(System.currentTimeMillis())). //增加版本号，避免同一名称缓存不更新
                 into(mNavHeadHeadIcon);
-        mNavHeadNickname.setText(String.format(getString(R.string.nav_userinfo_nickname),user.getNickname()));
+        mNavHeadNickname.setText(String.format(getString(R.string.nav_userinfo_nickname), user.getNickname()));
     }
 
 
@@ -227,7 +228,6 @@ public class MainActivity extends BaseActivity<MainFourPagePresenter> implements
                 menu.findItem(R.id.action_addSchedule).setVisible(true);
                 menu.findItem(R.id.action_settings).setVisible(false);
                 menu.findItem(R.id.action_addFriend).setVisible(false);
-                Logger.i("333333333333");
                 break;
             default:
                 menu.findItem(R.id.action_settings).setVisible(true);
@@ -252,7 +252,8 @@ public class MainActivity extends BaseActivity<MainFourPagePresenter> implements
                 showDialog2addFriend();
                 break;
             case R.id.action_addSchedule:
-                startActivity(new Intent(MainActivity.this, ScheduleDetailActivity.class));
+                Intent intent = new Intent(MainActivity.this, PersonalScheduleDetailActivity.class);
+                startActivity(intent);
                 break;
         }
         return true;
@@ -349,6 +350,14 @@ public class MainActivity extends BaseActivity<MainFourPagePresenter> implements
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefreshUserEvent(RefreshUserEvent event) {
         refreshNavUser();
+    }
+
+    /*
+    * 显示加载
+    * */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onShowProgressEvent(ShowProgressEvent event) {
+        showProgress(event.getFlag());
     }
 
 }
