@@ -5,19 +5,19 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * @ClassName ScheduleDetailDBHelper
+ * @ClassName DBHelper
  * @Author Wei Zhouye
  * @Date 2020/3/7
  * @Version 1.0
  */
-public class ScheduleDetailDBHelper extends SQLiteOpenHelper {
+public class DBHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static final String DATABASE_NAME = "ScheduleDetailLocal.db";
     public static final String LocalDetailTable = "LocalDetailTable";  //信息保存表
     public static final String TempDetailTable = "TempDetailTable";  //临时信息
 
 
-    public ScheduleDetailDBHelper(Context context) {
+    public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
 
@@ -28,7 +28,7 @@ public class ScheduleDetailDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table if not exists " + LocalDetailTable + "(" +
-                "_id integer primary key autoincrement, " +
+                "createTime primary key , " +
                 "objectId text unique," +  //唯一，对应Bomb云
                 "title text ," +   //标题
                 "content text ," +   //图文消息内容

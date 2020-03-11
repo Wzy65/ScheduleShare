@@ -14,4 +14,8 @@ public interface MainFourPagePresenter extends IBasePresenter {
     }
 
     boolean searchNewFriend(String phoneNumber);
+
+    String getLocalHeadIcon();
+
+    void clearTCKey();
 }

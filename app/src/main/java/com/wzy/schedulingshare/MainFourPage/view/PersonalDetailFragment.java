@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -17,18 +16,28 @@ import android.view.ViewGroup;
 
 import com.orhanobut.logger.Logger;
 import com.wzy.schedulingshare.MainFourPage.adapter.PersonalDetailListAdapter;
+import com.wzy.schedulingshare.MainFourPage.event.RefreshScheduleListEvent;
+import com.wzy.schedulingshare.MainFourPage.event.ResetScheduleListEvent;
 import com.wzy.schedulingshare.MainFourPage.modle.ScheduleDetail;
 import com.wzy.schedulingshare.MainFourPage.presenter.impl.PersonalPagePresenterImpl;
 import com.wzy.schedulingshare.MainFourPage.presenter.inter.PersonalPagePresenter;
 import com.wzy.schedulingshare.R;
 import com.wzy.schedulingshare.base.view.impl.BaseFragment;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
 
 import static com.wzy.schedulingshare.MainFourPage.view.PersonalScheduleDetailActivity.INTENT_TO_PSDA_KEY;
+import static com.wzy.schedulingshare.MainFourPage.view.PersonalScheduleDetailActivity.INTENT_TO_PSDA_Position_KEY;
 
 /**
  * @ClassName PersonalDetailFragment
@@ -42,6 +51,7 @@ public class PersonalDetailFragment extends BaseFragment<PersonalPagePresenter> 
     private List<ScheduleDetail> mList;
     private List<ScheduleDetail> mShareList;
     private PersonalDetailListAdapter mAdapter;
+    private int tabSelect = 0;  //记录tablayout选择的位置，方便删除列表某条记录
 
     @BindView(R.id.personal_page_tablayout)
     TabLayout mPersonalPageTabLayout;
@@ -51,7 +61,7 @@ public class PersonalDetailFragment extends BaseFragment<PersonalPagePresenter> 
 
     @Override
     public void initView() {
-        //EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
         mPresenter = new PersonalPagePresenterImpl(this);
         mAdapter = new PersonalDetailListAdapter(getContext(), mList);
         mAdapter.setHasStableIds(true);
@@ -64,7 +74,12 @@ public class PersonalDetailFragment extends BaseFragment<PersonalPagePresenter> 
             @Override
             public void onItemClick(int position) {
                 Intent intent = new Intent(getActivity(), PersonalScheduleDetailActivity.class);
-                intent.putExtra(INTENT_TO_PSDA_KEY, mList.get(position));
+                if (tabSelect == 0) {
+                    intent.putExtra(INTENT_TO_PSDA_KEY, mList.get(position));
+                } else {
+                    intent.putExtra(INTENT_TO_PSDA_KEY, mShareList.get(position));
+                }
+                intent.putExtra(INTENT_TO_PSDA_Position_KEY, position);
                 startActivity(intent);
             }
 
@@ -79,6 +94,7 @@ public class PersonalDetailFragment extends BaseFragment<PersonalPagePresenter> 
         mPersonalPageTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                tabSelect = tab.getPosition();
                 if (tab.getPosition() == 0) {
                     if (mList != null) {
                         refreshScheduleList(mList);
@@ -91,6 +107,7 @@ public class PersonalDetailFragment extends BaseFragment<PersonalPagePresenter> 
                     }
                     refreshScheduleList(mShareList);
                 }
+                Logger.i("点击第" + tab.getPosition() + "个选项" + "\n" + "列表总长度为：" + mList.size() + "\n" + "已分享总长度为：" + mShareList.size());
             }
 
             @Override
@@ -107,7 +124,7 @@ public class PersonalDetailFragment extends BaseFragment<PersonalPagePresenter> 
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_personal_detail;
+        return R.layout.fragment_personal_list;
     }
 
     @Override
@@ -125,22 +142,48 @@ public class PersonalDetailFragment extends BaseFragment<PersonalPagePresenter> 
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        //EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(this);
     }
 
 
-
-
-/*    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onRefreshFriendListEvent(RefreshFriendListEvent event) {
-        mPresenter.queryFriends();
+    /*这里返回来的是从列表项中点击进去修改的，说明原本有数据，所以处理不同，多了移除工作*/
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onRefreshScheduleListEvent(RefreshScheduleListEvent event) {
+        if(mList==null){
+            mList=new ArrayList<>();
+        }
+        mList.remove(event.getDetail());
+        mList.add(0, event.getDetail());  //移到首项
+        if (mShareList == null) {
+            mShareList = new ArrayList<>();
+        }
+        mShareList.remove(event.getDetail());
+        if (event.getDetail().getStatus().equals("1")) {
+            mShareList.add(0, event.getDetail());  //若是状态不变或者有未分享变成分享，则添加到首项
+        }
+        refreshScheduleList(tabSelect == 0 ? mList : mShareList);
     }
 
-    @Override
-    public void refreshFriendList(List<Friend> list) {
-        mList = list;
-        mFriendListAdapter.setDataList(mList);
-    }*/
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onResetScheduleListEvent(ResetScheduleListEvent event) {
+        if (mList != null) {
+            mList.add(0, event.getDetail());
+        } else {
+            mList = new ArrayList<>();
+            mList.add(event.getDetail());
+        }
+        if (event.getDetail().getStatus().equals("1")) {
+            if (mShareList != null) {
+                mShareList.add(0, event.getDetail());
+            } else {
+                mShareList = new ArrayList<>();
+                mShareList.add(event.getDetail());
+            }
+        }
+        /*这里不用notifydDataChange，是因为存在null的情况，adapter那边没数据刷新不了*/
+        refreshScheduleList(tabSelect == 0 ? mList : mShareList);
+    }
+
 
     /*长按展示删除选项*/
     private void showPopMenu(final int position, View view) {
@@ -167,14 +210,63 @@ public class PersonalDetailFragment extends BaseFragment<PersonalPagePresenter> 
         builder.setPositiveButton(R.string.personal_page_dialog_right_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mList.remove(position);
-                //refreshFriendList(mList);
-                showToast(getString(R.string.personal_page_delete_success));
+                switch (tabSelect) {
+                    case 0:
+                        boolean flag = mList.get(position).getStatus().equals("1");
+                        if (flag) {
+                            mPresenter.deleteDetailInBmob(mList.get(position).getObjectId(), new UpdateListener() {
+                                @Override
+                                public void done(BmobException e) {
+                                    if (e == null) {
+                                        mPresenter.deleteDetail(mList.get(position).getCreateTime());
+                                        ScheduleDetail d = mList.get(position);
+                                        mList.remove(position);
+                                        refreshScheduleList(mList);
+                                        if (d.getStatus().equals("1")) {
+                                            mShareList.remove(d);
+                                        }
+                                        showToast(getString(R.string.personal_page_delete_success));
+                                    } else {
+                                        showToast(R.string.personal_page_delete_fail);
+                                        Logger.i("删除行程失败："+e.getMessage());
+                                    }
+                                }
+                            });
+                        } else {
+                            mPresenter.deleteDetail(mList.get(position).getCreateTime());
+                            ScheduleDetail d = mList.get(position);
+                            mList.remove(position);
+                            refreshScheduleList(mList);
+                            if (d.getStatus().equals("1")) {
+                                mShareList.remove(d);
+                            }
+                            showToast(getString(R.string.personal_page_delete_success));
+                        }
+                        break;
+                    case 1:
+                        mPresenter.deleteDetailInBmob(mShareList.get(position).getObjectId(), new UpdateListener() {
+                            @Override
+                            public void done(BmobException e) {
+                                if (e == null) {
+                                    mPresenter.deleteDetail(mShareList.get(position).getCreateTime());
+                                    ScheduleDetail detail = mShareList.get(position);
+                                    mShareList.remove(position);
+                                    mList.remove(detail);
+                                    refreshScheduleList(mShareList);
+                                    showToast(getString(R.string.personal_page_delete_success));
+                                } else {
+                                    showToast(R.string.personal_page_delete_fail);
+                                    Logger.i("删除行程失败："+e.getMessage());
+                                }
+                            }
+                        });
+
+                        break;
+                }
                 dialog.dismiss();
             }
         });
         builder.setNeutralButton(R.string.personal_page_dialog_left_btn, new DialogInterface.OnClickListener() {
-
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -187,8 +279,12 @@ public class PersonalDetailFragment extends BaseFragment<PersonalPagePresenter> 
 
 
     @Override
-    public void refreshScheduleList(List<ScheduleDetail> list) {
+    public void setAllList(List<ScheduleDetail> list) {
         mList = list;
-        mAdapter.setDataList(mList);
+    }
+
+    @Override
+    public void refreshScheduleList(List<ScheduleDetail> list) {
+        mAdapter.setDataList(list);
     }
 }

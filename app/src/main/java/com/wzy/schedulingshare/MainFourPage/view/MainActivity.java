@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,6 +40,7 @@ import com.wzy.schedulingshare.Fragment4;
 import com.wzy.schedulingshare.MainFourPage.adapter.TitleFragmentPagerAdapter;
 import com.wzy.schedulingshare.MainFourPage.event.RefreshFriendListEvent;
 import com.wzy.schedulingshare.MainFourPage.event.RefreshNewFriendEvent;
+import com.wzy.schedulingshare.MainFourPage.event.RefreshShareScheduleListEvent;
 import com.wzy.schedulingshare.MainFourPage.event.RefreshUserEvent;
 import com.wzy.schedulingshare.MainFourPage.event.ShowProgressEvent;
 import com.wzy.schedulingshare.MainFourPage.presenter.impl.MainFourPagePresenterImpl;
@@ -127,9 +129,9 @@ public class MainActivity extends BaseActivity<MainFourPagePresenter> implements
     * */
     private void initTabAndViewPager() {
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new Fragment1());
+        fragments.add(new MainFragment());
         fragments.add(new FriendListFragment());
-        fragments.add(new Fragment3());
+        fragments.add(new ShareDetailFragment());
         fragments.add(new PersonalDetailFragment());
 
         String[] titles = new String[]{getString(R.string.tab_mainPage), getString(R.string.tab_friendPage), getString(R.string.tab_communityPage), getString(R.string.tab_minePage)};
@@ -144,6 +146,9 @@ public class MainActivity extends BaseActivity<MainFourPagePresenter> implements
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 1 || tab.getPosition() == 3) {
                     invalidateOptionsMenu();
+                }
+                if (tab.getPosition() == 2) {
+                    EventBus.getDefault().post(new RefreshShareScheduleListEvent());
                 }
             }
 
@@ -192,8 +197,12 @@ public class MainActivity extends BaseActivity<MainFourPagePresenter> implements
     * */
     private void refreshNavUser() {
         User user = BmobUser.getCurrentUser(User.class);
+        String url = mPresenter.getLocalHeadIcon();
+        if (TextUtils.isEmpty(url)) {
+            url = user.getHeadIcon();
+        }
         Glide.with(this).
-                load(user.getHeadIcon()).
+                load(url).
                 error(R.drawable.ic_picture_error). //异常时候显示的图片
                 placeholder(R.drawable.ic_picture_placeholder).//加载成功前显示的图片
                 fallback(R.drawable.login_head).//url为空的时候,显示的图片
@@ -342,6 +351,7 @@ public class MainActivity extends BaseActivity<MainFourPagePresenter> implements
         //清理导致内存泄露的资源
         BmobIM.getInstance().clear();
         EventBus.getDefault().unregister(this);
+        mPresenter.clearTCKey();
     }
 
     /*

@@ -1,6 +1,7 @@
 package com.wzy.schedulingshare.MainFourPage.presenter.impl;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.orhanobut.logger.Logger;
@@ -46,6 +47,23 @@ public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> imple
         mView.showProgress(true);
         queryUser(phoneNumber);
         return true;
+    }
+
+    @Override
+    public String getLocalHeadIcon() {
+        SharedPreferences settings = mView.getSharedPreferences("UserInfo", 0);
+        return settings.getString("LocalHeadIcon", null);
+    }
+
+    @Override
+    public void clearTCKey() {
+        SharedPreferences settings = mView.getSharedPreferences("UserInfo", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("user", "");
+        editor.putString("appid", "");
+        editor.putString("secretId", "");
+        editor.putString("secretKey", "");
+        editor.commit();
     }
 
     private boolean isPhoneNumberValid(String phoneNumber) {

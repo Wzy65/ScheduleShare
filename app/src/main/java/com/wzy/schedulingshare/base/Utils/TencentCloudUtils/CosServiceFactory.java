@@ -38,13 +38,15 @@ import java.util.Map;
 public class CosServiceFactory {
 
     private static final String defaultRegion = "ap-guangzhou";
+    public static final String bucket2DetailPhoto = "schedulingshare-share-photo-1301419202";
+    public static final String bucket2HeadIcon = "schedulingshare-headicon-1301419202";
 
     private static Map<String, CosXmlService> cosXmlServiceMap = new HashMap<>();
 
 
     public static CosXmlService getCosXmlServiceWithProperWay(Context context, String region) {
 
-        COSConfigManager cosConfigManager = COSConfigManager.getInstance();
+        COSConfigManager cosConfigManager = COSConfigManager.getInstance(context);
 
         if (cosConfigManager.isForeverSignComplete()) {
 

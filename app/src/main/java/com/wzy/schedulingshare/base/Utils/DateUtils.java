@@ -40,4 +40,16 @@ public class DateUtils {
         }
         return date.getTime();
     }
+
+    /*从字符串获取获取Date*/
+    public static Date getString2Date(String time){
+        mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        Date date = new Date();
+        try {
+            date = mSimpleDateFormat.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
 }

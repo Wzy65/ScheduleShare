@@ -61,7 +61,6 @@ public class FriendListFragment extends BaseFragment<FriendPagePresenter> implem
         EventBus.getDefault().register(this);
         mPresenter = new FriendPagePresenterImpl(this);
         mFriendListAdapter = new FriendListAdapter(getContext(), mList);
-        mFriendListAdapter.setHasStableIds(true);
         mFriendRecycleview.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         mFriendRecycleview.setLayoutManager(new LinearLayoutManager(getActivity()));
         mFriendRecycleview.setAdapter(mFriendListAdapter);
@@ -85,7 +84,7 @@ public class FriendListFragment extends BaseFragment<FriendPagePresenter> implem
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_friendlist;
+        return R.layout.fragment_friend_list;
     }
 
     @Override

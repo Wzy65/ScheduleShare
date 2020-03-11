@@ -3,6 +3,7 @@ package com.wzy.schedulingshare.MainFourPage.modle;
 import com.wzy.schedulingshare.base.modle.User;
 
 import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.datatype.BmobRelation;
 
 /**
  * @ClassName ScheduleDetail
@@ -16,6 +17,7 @@ import cn.bmob.v3.BmobObject;
 * */
 public class ScheduleDetail extends BmobObject {
 
+    private String createTime;   //保存在数据库的主键值
     private String title;  //标题
     private String content; //内容
     private String brief;  //用于在list界面的content的简略信息
@@ -23,7 +25,24 @@ public class ScheduleDetail extends BmobObject {
     private String endAT; //事件结束时间
     private User auth;   //作者
     private String status;  //状态码，0:未分享  1::已分享
-    //TODO 评论
+
+    private BmobRelation comment_relation;   //评论
+
+    public BmobRelation getComment_relation() {
+        return comment_relation;
+    }
+
+    public void setComment_relation(BmobRelation comment_relation) {
+        this.comment_relation = comment_relation;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
 
     public String getTitle() {
         return title;
@@ -79,5 +98,18 @@ public class ScheduleDetail extends BmobObject {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other instanceof ScheduleDetail) {
+            if (((ScheduleDetail) other).getCreateTime().equals(this.createTime)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

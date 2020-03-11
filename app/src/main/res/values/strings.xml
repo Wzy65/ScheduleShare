@@ -9,7 +9,9 @@
     <string name="notify_one_newMsg">您有一条新消息</string>
     <string name="notify_request_addYou">请求添加你为朋友</string>
     <string name="pop_menu_delete_txt">删除</string>
-
+    <string name="get_tencentKey_error">获取密钥失败，图片上传功能暂不可用，请稍后重试</string>
+    <string name="upload_photo_fail">图片上传失败，请重试</string>
+    <string name="photo_not_find">解析错误：图片不存在或已损坏</string>
 
 
     <!-- 登陆界面LoginActivity -->
@@ -53,7 +55,6 @@
     <string name="setting_sexy_dialog_title">选择性别</string>
     <string name="setting_sexy_dialog_left_btn">取消</string>
     <string name="setting_sexy_dialog_right_btn">确认</string>
-
 
 
     <!--密码修改界面SettingPasswordActivity-->
@@ -114,6 +115,7 @@
     <string name="friendlist_dialog_right_btn">确定</string>
     <string name="friendlist_dialog_left_btn">取消</string>
     <string name="friendlist_dialog_delete_success">成功删除好友</string>
+    <string name="friendlist_item_adapter_positionKey">friend_list_position</string>
 
 
     <!--新的朋友界面NewFriendActivity-->
@@ -135,6 +137,31 @@
     <string name="personal_page_dialog_left_btn">取消</string>
     <string name="personal_page_dialog_right_btn">确定</string>
     <string name="personal_page_delete_success">成功删除行程</string>
+    <string name="personal_page_delete_fail">删除失败</string>
+    <string name="personal_list_item_adapter_positionKey">personal_list_position</string>
+
+
+    <!--分享行程信息界面SharePageFragment-->
+    <string name="share_list_item_startTxt">开始：</string>
+    <string name="share_list_item_endTxt">结束：</string>
+    <string name="share_page_all">全部</string>
+    <string name="share_page_share">已分享</string>
+    <string name="share_page_dialog_title">提示</string>
+    <string name="share_page_dialog_msg">确定删除该行程？</string>
+    <string name="share_page_dialog_left_btn">取消</string>
+    <string name="share_page_dialog_right_btn">确定</string>
+    <string name="share_page_delete_success">成功删除行程</string>
+    <string name="share_page_find_fail">刷新数据失败</string>
+    <string name="share_page_find_no_more">已经到底啦</string>
+    <string name="share_list_item_adapter_positionKey">share_list_position</string>
+
+
+    <!--首页界面MainFragment-->
+    <string name="main_horizontal_list_item_adapter_positionKey">main_horizontal_list_position</string>
+    <string name="main_page_title_happen">即将要发生</string>
+    <string name="main_page_title_share">动态-最近</string>
+    <string name="main_page_title_collect">我的关注</string>
+
 
 
 
@@ -159,9 +186,11 @@
 
     <!--显示详细行程内容界面ScheduleDetailActivity-->
     <string name="schedule_detail_title">请输入标题内容，不得多于20字</string>
+    <string name="schedule_detail_look_comment">查看评论</string>
     <string name="schedule_detail_contint_hint">在这里输入内容</string>
     <string name="schedule_detail_startTxt">开始时间：</string>
     <string name="schedule_detail_endTxt">结束时间：</string>
+    <string name="schedule_detail_noDate_error">请选择大致时间</string>
     <string name="schedule_detail_chooseDate">选择日期</string>
     <string name="schedule_detail_chooseTime">选择时间</string>
     <string name="schedule_detail_toolbar_menu_save">保存</string>
@@ -181,14 +210,27 @@
     <string name="schedule_detail_dialog_cancelshare_msg">确认取消分享？</string>
     <string name="schedule_detail_dialog_cancelshare_left_btn">我再想想</string>
     <string name="schedule_detail_dialog_cancelshare_right_btn">确认</string>
-    <string name="schedule_detail_toast_already_share_success">成功分享</string>
-    <string name="schedule_detail_toast_cancle_share">已取消分享</string>
+    <string name="schedule_detail_toast_already_share_success">分享成功</string>
+    <string name="schedule_detail_toast_cancle_share">已取消分享，记得点击保存</string>
+    <string name="schedule_detail_toast_share_error">分享失败，请稍后重试</string>
+    <string name="schedule_detail_toast_share_update_error">更新失败，请稍后重试</string>
+    <string name="schedule_detail_toast_cancel_share_error">取消分享失败，请稍后重试</string>
 
 
-
-
-
-
+    <!--分享行程的详情界面ShareScheduleDetailActivity-->
+    <string name="share_schedule_detail_toolbar_menu_collect">添加到我的行程</string>
+    <string name="share_schedule_detail_toolbar_menu_collect_cancel">取消添加</string>
+    <string name="share_schedule_detail_comment">评论</string>
+    <string name="share_schedule_detail_comment_hint">在这里添加你的评论</string>
+    <string name="share_schedule_detail_comment_add_error">评论内容不能为空</string>
+    <string name="share_schedule_detail_comment_add_success">评论成功</string>
+    <string name="share_schedule_detail_comment_add_fail">评论失败</string>
+    <string name="comment_list_item_adapter_Image_positionKey">Iamge_position</string>
+    <string name="share_schedule_detail_collect_success">添加成功</string>
+    <string name="share_schedule_detail_collect_fail">添加失败</string>
+    <string name="share_schedule_detail_collect_cancel_success">取成功</string>
+    <string name="share_schedule_detail_collect_cancel_fail">取消失败</string>
+    <string name="share_schedule_detail_collect_error">这是你的行程，无需再添加啦！</string>
 
 
 </resources>

@@ -3,6 +3,7 @@ package com.wzy.schedulingshare.base.view;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -15,16 +16,22 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.orhanobut.logger.Logger;
 import com.wzy.schedulingshare.LoginAndRegister.view.LoginActivity;
 import com.wzy.schedulingshare.MainFourPage.view.MainActivity;
 import com.wzy.schedulingshare.R;
+import com.wzy.schedulingshare.base.modle.TencentCloud;
 import com.wzy.schedulingshare.base.modle.User;
 import com.wzy.schedulingshare.base.view.impl.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.QueryListener;
 
 /**
  * @ClassName SplashActivity
@@ -53,6 +60,8 @@ public class SplashActivity extends BaseActivity {
         new Runnable() {
             @Override
             public void run() {
+                /*获取腾讯云密钥*/
+                getKey();
                 Message message = Message.obtain();
                 message.what = GO_HOME;
                 if (BmobUser.getCurrentUser(User.class).isLogin()) {
@@ -72,6 +81,28 @@ public class SplashActivity extends BaseActivity {
 
     }
 
+    private void getKey(){
+        BmobQuery<TencentCloud> bmobQuery = new BmobQuery<TencentCloud>();
+        bmobQuery.addWhereEqualTo("user","WZY");
+        bmobQuery.findObjects(new FindListener<TencentCloud>() {
+            @Override
+            public void done(List<TencentCloud> object, BmobException e) {
+                if (e == null) {
+                    TencentCloud tc=object.get(0);
+                    SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("user", tc.getUser());
+                    editor.putString("appid", tc.getAppid());
+                    editor.putString("secretId", tc.getSecretId());
+                    editor.putString("secretKey", tc.getSecretKey());
+                    editor.commit();
+                    Logger.i("获取腾讯云密钥成功");
+                } else {
+                    showToast(R.string.get_tencentKey_error);
+                }
+            }
+        });
+    }
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {

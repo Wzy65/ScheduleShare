@@ -52,7 +52,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
 
     @Override
     public void onBindViewHolder(@NonNull FriendViewHolder holder, int position) {
-        holder.itemView.setTag(R.string.newfriendlist_item_adapter_positionKey,position); //绑定Tag，用于识别点击itemView时的位置
+        holder.itemView.setTag(R.string.friendlist_item_adapter_positionKey,position); //绑定Tag，用于识别点击itemView时的位置
 
         Glide.with(mContext).
                 load(mList.get(position).getFriendUser().getHeadIcon()).
@@ -82,14 +82,14 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position=(int)v.getTag(R.string.newfriendlist_item_adapter_positionKey);
+                    int position=(int)v.getTag(R.string.friendlist_item_adapter_positionKey);
                     mListener.onItemClick(position);
                 }
             });
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    int position=(int)v.getTag(R.string.newfriendlist_item_adapter_positionKey);
+                    int position=(int)v.getTag(R.string.friendlist_item_adapter_positionKey);
                     mListener.onItemLongClick(position,itemView);
                     return true;
                 }

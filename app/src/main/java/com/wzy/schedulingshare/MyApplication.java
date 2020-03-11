@@ -120,7 +120,7 @@ public class MyApplication extends Application {
                                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                                     if (imageHeight > 0) {//固定高度
                                         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                                                FrameLayout.LayoutParams.WRAP_CONTENT, imageHeight);//固定图片高度，记得设置裁剪剧中
+                                                200, imageHeight);//固定图片高度，记得设置裁剪剧中
                                         lp.bottomMargin = 10;//图片的底边距
                                         imageView.setLayoutParams(lp);
                                         Glide.with(getApplicationContext()).asBitmap().load(imagePath).centerCrop()
@@ -134,7 +134,7 @@ public class MyApplication extends Application {
                 } else { //如果是本地图片
                     if (imageHeight > 0) {//固定高度
                         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                                FrameLayout.LayoutParams.WRAP_CONTENT, imageHeight);//固定图片高度，记得设置裁剪剧中
+                                200, imageHeight);//固定图片高度，记得设置裁剪剧中
                         lp.bottomMargin = 10;//图片的底边距
                         imageView.setLayoutParams(lp);
 
@@ -148,5 +148,6 @@ public class MyApplication extends Application {
             }
         });
     }
+
 
 }

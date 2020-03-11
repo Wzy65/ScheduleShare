@@ -3,6 +3,7 @@ package com.wzy.schedulingshare.MainFourPage.presenter.impl;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.wzy.schedulingshare.MainFourPage.modle.ScheduleDetail;
 import com.wzy.schedulingshare.MainFourPage.presenter.inter.PersonalPagePresenter;
@@ -17,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * @ClassName PersonalPagePresenterImpl
@@ -36,13 +39,25 @@ public class PersonalPagePresenterImpl extends BasePresenter<PersonalDetailFragm
     }
 
     @Override
+    public void deleteDetail(String createTime) {
+        DBUtils.getINSTANCE(mView.getContext()).deleteDetail(createTime);
+    }
+
+    @Override
+    public void deleteDetailInBmob(String id, UpdateListener listener) {
+        if (!TextUtils.isEmpty(id)) ;
+        ScheduleDetail detail = new ScheduleDetail();
+        detail.delete(id,listener);
+    }
+
+    @Override
     public List<ScheduleDetail> queryScheduleShare(List<ScheduleDetail> details) {
-        if(details==null){
+        if (details == null) {
             return null;
         }
-        List<ScheduleDetail> temp=new ArrayList<>();
-        for(ScheduleDetail detail:details){
-            if(detail.getStatus().equals("1")){
+        List<ScheduleDetail> temp = new ArrayList<>();
+        for (ScheduleDetail detail : details) {
+            if (detail.getStatus().equals("1")) {
                 temp.add(detail);
             }
         }
@@ -73,6 +88,7 @@ public class PersonalPagePresenterImpl extends BasePresenter<PersonalDetailFragm
             if (ref.get() == null) {
                 return;
             }
+            ref.get().setAllList(list);
             ref.get().refreshScheduleList(list);
         }
 

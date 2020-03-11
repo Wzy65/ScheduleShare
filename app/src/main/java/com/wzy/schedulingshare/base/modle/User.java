@@ -3,6 +3,7 @@ package com.wzy.schedulingshare.base.modle;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobGeoPoint;
+import cn.bmob.v3.datatype.BmobRelation;
 
 /**
  * @ClassName User
@@ -26,7 +27,17 @@ public class User extends BmobUser {
     private String address = "";
     /*地理坐标*/
     private BmobGeoPoint location;
+    /*收藏的行程*/
+    private BmobRelation collect_relation;
 
+
+    public BmobRelation getCollect_relation() {
+        return collect_relation;
+    }
+
+    public void setCollect_relation(BmobRelation collect_relation) {
+        this.collect_relation = collect_relation;
+    }
 
     public BmobGeoPoint getLocation() {
         return location;

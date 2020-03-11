@@ -1,12 +1,17 @@
 package com.wzy.schedulingshare.MainFourPage.view;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,15 +20,13 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.bumptech.glide.Glide;
 import com.orhanobut.logger.Logger;
 import com.sendtion.xrichtext.RichTextEditor;
-import com.wzy.schedulingshare.MainFourPage.event.RefreshFriendListEvent;
-import com.wzy.schedulingshare.MainFourPage.event.RefreshNewFriendEvent;
 import com.wzy.schedulingshare.MainFourPage.modle.ScheduleDetail;
 import com.wzy.schedulingshare.MainFourPage.presenter.impl.PersonalScheduleDetailPresenterImpl;
 import com.wzy.schedulingshare.MainFourPage.presenter.inter.PersonalScheduleDetailPresenter;
@@ -31,8 +34,6 @@ import com.wzy.schedulingshare.R;
 import com.wzy.schedulingshare.base.Utils.DateUtils;
 import com.wzy.schedulingshare.base.Utils.XRichTextStringUtils;
 import com.wzy.schedulingshare.base.view.impl.BaseActivity;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.Calendar;
 import java.util.List;
@@ -60,26 +61,24 @@ import static com.wzy.schedulingshare.base.view.ScheduleTakePhotosActivity.Sched
 public class PersonalScheduleDetailActivity extends BaseActivity<PersonalScheduleDetailPresenter> implements PersonalScheduleDetailPresenter.View {
     public static final int SCHEDULEDETAIL_REQUEST_TAKEPHOTO = 201;
     public static final String INTENT_TO_PSDA_KEY = "INTENT_TO_PSDA_KEY";
-    public static String schedule_status = "0";  //行程的status，0:未分享，1:已分享
+    public static final String INTENT_TO_PSDA_Position_KEY = "INTENT_TO_PSDA_Position_KEY"; //保存选择的位置
+
+    public String schedule_status = "0";  //行程的status，0:未分享，1:已分享
 
     private Disposable subsLoading;
     private ScheduleDetail mDetail;
     private boolean isCheckContent = true;   //设置标志，从相机相册返回onResume()方法不check内容
     private boolean isSaveTemp = true;
+    private int position; //保存前个界面点击所在位置
 
-
+    @BindView(R.id.share_schedule_detail_goto_comment)
+    TextView mShareScheduleDetailGotoComment;
+    @BindView(R.id.main_progress)
+    ProgressBar mMainProgress;
     @BindView(R.id.setting_toolbar)
     Toolbar mSettingToolbar;
     @BindView(R.id.schedule_detail_title)
     EditText mScheduleDetailTitle;
-    @BindView(R.id.schedule_detail_userIcon)
-    ImageView mScheduleDetailUserIcon;
-    @BindView(R.id.schedule_detail_uerName)
-    TextView mScheduleDetailUerName;
-    @BindView(R.id.schedule_detail_updateAt)
-    TextView mScheduleDetailUpdateAt;
-    @BindView(R.id.schedule_detail_userInfo)
-    LinearLayout mScheduleDetailUserInfo;
     @BindView(R.id.schedule_detail_startDate)
     Button mScheduleDetailStartDate;
     @BindView(R.id.schedule_detail_startTime)
@@ -100,31 +99,26 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
         getSupportActionBar().setDisplayShowTitleEnabled(false); //关闭lable的显示
         getSupportActionBar().setHomeButtonEnabled(true);  //设置默认的返回图标是否可点击
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);  //设置显示默认的返回图标
-        mScheduleDetailContnt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    mScheduleDetailChoosePhoto.setVisibility(View.VISIBLE);
-                } else {
-                    mScheduleDetailChoosePhoto.setVisibility(View.GONE);
-                }
-            }
-        });
         mScheduleDetailContnt.setOnRtImageClickListener(new RichTextEditor.OnRtImageClickListener() {
             @Override
             public void onRtImageClick(View view, String imagePath) {
                 showBigPhoto(imagePath);
             }
         });
+        position = getIntent().getIntExtra(INTENT_TO_PSDA_Position_KEY, -1);
         mDetail = (ScheduleDetail) getIntent().getSerializableExtra(INTENT_TO_PSDA_KEY);
         if (mDetail != null) {
             isCheckContent = false;  //如果是从列表界面进来，不用去检查Temp表
-            schedule_status=mDetail.getStatus();
+            isSaveTemp = false;
+            schedule_status = mDetail.getStatus();
             invalidateOptionsMenu(); //刷新toolbar栏
             String start = DateUtils.getDateToString(Long.valueOf(mDetail.getStartAt()));
             String end = DateUtils.getDateToString(Long.valueOf(mDetail.getEndAT()));
             showTemp(mDetail.getTitle(), mDetail.getContent(),
                     start.substring(0, 10), start.substring(11, 16), end.substring(0, 10), end.substring(11, 16));
+            if(mDetail.getStatus().equals("1")){
+                mShareScheduleDetailGotoComment.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -133,12 +127,6 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
         return R.layout.activity_personal_schedule_datail;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 
     @Override
     protected void onResume() {
@@ -165,7 +153,11 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
 
     @Override
     public void onBackPressed() {
-        showDialog4onBaskPressed();
+        if (isSaveTemp) {
+            showDialog4onBaskPressed();
+        } else {
+            finish();
+        }
     }
 
 
@@ -180,11 +172,6 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
                     String imageUri_origin = data.getStringExtra(Schedule_TakePhotoActivity_Intent_Origin_Key);
                     mScheduleDetailContnt.insertImage(imageUri_compress);
                     Logger.i("原始：" + imageUri_origin + "\n" + "压缩" + imageUri_compress);
-                    //TODO
-                    //mPresenter.uploadHeadIcon(imageUri);
-                    //if(BmobUser.getCurrentUser(User.class).getHeadIcon()!=null) {
-                    //   Glide.with(this).load(new File(imageUri)).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(mSettingHeadIconImg);
-                    //}
                 }
                 break;
         }
@@ -200,30 +187,45 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                showDialog4onBaskPressed();
+                if (isSaveTemp) {
+                    showDialog4onBaskPressed();
+                } else {
+                    finish();
+                }
                 break;
             case R.id.personal_schedule_detail_menu_save:
-                saveDetail();
-                isSaveTemp = false;
-                mPresenter.deleteTemp();
-                showToast(R.string.schedule_detail_save_success);
-                finish();
+                if (checkDate()) {
+                    saveDetail(mPresenter.getEditData(mScheduleDetailContnt),true);
+                }
                 break;
             case R.id.personal_schedule_detail_menu_share:
-                showToast(R.string.schedule_detail_toast_already_share_success);
-                schedule_status = "1";
-                invalidateOptionsMenu(); //刷新toolbar栏
+                if (checkDate()) {
+                    schedule_status = "1";
+                    mPresenter.shareDetail(mScheduleDetailContnt, mDetail, mScheduleDetailTitle.getText().toString(),
+                            String.valueOf(DateUtils.getStringToDate(mScheduleDetailStartDate.getText() + " " + mScheduleDetailStartTime.getText())),
+                            String.valueOf(DateUtils.getStringToDate(mScheduleDetailEndDate.getText() + " " + mScheduleDetailEndTime.getText())));
+
+                }
                 break;
             case R.id.personal_schedule_detail_menu_share_cancel:
                 showCancelShareDialog();
+        }
+        return true;
+    }
 
+    /*检查是否选择时间*/
+    private boolean checkDate() {
+        if (TextUtils.isEmpty(mScheduleDetailStartDate.getText()) || TextUtils.isEmpty(mScheduleDetailStartTime.getText()) ||
+                TextUtils.isEmpty(mScheduleDetailEndDate.getText()) || TextUtils.isEmpty(mScheduleDetailEndTime.getText())) {
+            showToast(R.string.schedule_detail_noDate_error);
+            return false;
         }
         return true;
     }
 
     /*
-* 动态变换toolbar上的menu控件
-* */
+    * 动态变换toolbar上的menu控件
+    * */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // 动态设置ToolBar状态
@@ -250,12 +252,26 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
         );
     }
 
-    private void saveDetail() {
+    @Override
+    public void saveDetail(String content, boolean isUpload) {
+        if (mScheduleDetailStartDate.getText().equals(getString(R.string.schedule_detail_chooseDate)) ||
+                mScheduleDetailStartTime.getText().equals(getString(R.string.schedule_detail_chooseTime))) {
+            showToast(R.string.schedule_detail_noDate_error);
+            return;
+        }
         mPresenter.saveDetail(mScheduleDetailTitle.getText().toString(),
-                mPresenter.getEditData(mScheduleDetailContnt),
+                content,
                 String.valueOf(DateUtils.getStringToDate(mScheduleDetailStartDate.getText() + " " + mScheduleDetailStartTime.getText())),
-                String.valueOf(DateUtils.getStringToDate(mScheduleDetailEndDate.getText() + " " + mScheduleDetailEndTime.getText()))
+                String.valueOf(DateUtils.getStringToDate(mScheduleDetailEndDate.getText() + " " + mScheduleDetailEndTime.getText())),
+                mDetail, isUpload
         );
+    }
+
+    @Override
+    public void finishActivity() {
+        isSaveTemp = false;
+        mPresenter.deleteTemp();
+        finish();
     }
 
     private void showDialog4ChoosePhoto() {
@@ -286,8 +302,9 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
         builder.setPositiveButton(R.string.schedule_detail_dialog_cancelshare_right_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                schedule_status="0";
-                invalidateOptionsMenu(); //刷新toolbar栏
+                schedule_status = "0";
+                mPresenter.cancelShare(mDetail);
+                mShareScheduleDetailGotoComment.setVisibility(View.GONE);
                 dialog.dismiss();
 
             }
@@ -349,14 +366,19 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
         new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                button.setText(hourOfDay + ":" + minute);
+                if (minute < 10) {
+                    button.setText(hourOfDay + ":0" + minute);
+                } else {
+                    button.setText(hourOfDay + ":" + minute);
+                }
             }
         }
                 , calendar.get(Calendar.HOUR_OF_DAY)
                 , calendar.get(Calendar.MINUTE), true).show();
     }
 
-    @OnClick({R.id.schedule_detail_startDate, R.id.schedule_detail_startTime, R.id.schedule_detail_endDate, R.id.schedule_detail_endTime, R.id.schedule_detail_choosePhoto})
+    @OnClick({R.id.schedule_detail_startDate, R.id.schedule_detail_startTime, R.id.schedule_detail_endDate,
+            R.id.schedule_detail_endTime, R.id.schedule_detail_choosePhoto, R.id.share_schedule_detail_goto_comment})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.schedule_detail_startDate:
@@ -374,6 +396,11 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
             case R.id.schedule_detail_choosePhoto:
                 showDialog4ChoosePhoto();
                 break;
+            case R.id.share_schedule_detail_goto_comment:
+                Intent intent=new Intent(PersonalScheduleDetailActivity.this,ShareScheduleDetailActivity.class);
+                intent.putExtra(ShareScheduleDetailActivity.INTENT_TO_SSDA_KEY,mDetail);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -390,6 +417,11 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
                 dealWithContent(content);
             }
         });
+    }
+
+    @Override
+    public String getStatus() {
+        return schedule_status;
     }
 
     private void dealWithContent(String content) {
@@ -413,9 +445,6 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
                 .subscribe(new Observer<String>() {
                     @Override
                     public void onComplete() {
-                       /* if (loadingDialog != null){
-                            loadingDialog.dismiss();
-                        }*/
                         if (mScheduleDetailContnt != null) {
                             //在图片全部插入完毕后，再插入一个EditText，防止最后一张图片后无法插入文字
                             mScheduleDetailContnt.addEditTextAtIndex(mScheduleDetailContnt.getLastIndex(), "");
@@ -424,10 +453,7 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
 
                     @Override
                     public void onError(Throwable e) {
-                       /* if (loadingDialog != null){
-                            loadingDialog.dismiss();
-                        }*/
-                        showToast("解析错误：图片不存在或已损坏");
+                        showToast(R.string.photo_not_find);
                     }
 
                     @Override
@@ -495,4 +521,34 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
         });
     }
 
+
+    @Override
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    public void showProgress(final boolean show) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            mMainProgress.setVisibility(show ? View.VISIBLE : View.GONE);
+            mMainProgress.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mMainProgress.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            mMainProgress.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    @Override
+    public void setDetail(ScheduleDetail detail) {
+        mDetail = detail;
+        Logger.i("设置新的Detail："+mDetail.getObjectId());
+    }
+
+    @OnClick(R.id.share_schedule_detail_goto_comment)
+    public void onViewClicked() {
+    }
 }

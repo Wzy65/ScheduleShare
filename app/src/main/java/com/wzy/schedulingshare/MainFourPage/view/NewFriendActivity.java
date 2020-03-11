@@ -63,7 +63,6 @@ public class NewFriendActivity extends BaseActivity<NewFriendPresenter> implemen
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);  //设置显示默认的返回图标
 
         mAdapter = new NewFriendListAdapter(this, mList, mPresenter);
-        mAdapter.setHasStableIds(true);
         mNewFriendRecycleView.setAdapter(mAdapter);
         mNewFriendRecycleView.setLayoutManager(new LinearLayoutManager(this));
         mNewFriendRecycleView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));

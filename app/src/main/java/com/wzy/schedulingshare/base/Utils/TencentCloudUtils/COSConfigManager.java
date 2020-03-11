@@ -13,6 +13,7 @@ import android.text.TextUtils;
 public class COSConfigManager {
 
     private static COSConfigManager INSTANCE;
+    private static Context sContext;
 
     private final String sharedPreferenceKey = "TencentCloudConfig";
 
@@ -22,28 +23,38 @@ public class COSConfigManager {
     private final String signUrlKey = "SIGN_URL_KEY";
 
     // TODO: 这里必须修改为您自己的配置项
-    private static String appid = "1301419202"; // 对象存储的服务 appid
-    private static String secretId = "AKIDSOUrERVDqXFpQ6I3qistqpjT6ukWkzZV";
-    private static String secretKey = "xmV7Xy0675vdEi5NYmw44Qo4DZwIYmrn";
+    private static String appid; // 对象存储的服务 appid
+    private static String secretId;
+    private static String secretKey;
     private static String signUrl = ""; // 后台授权服务的 url 地址
 
+    private COSConfigManager(Context context) {
+        sContext = context;
+    }
 
-
-    public static COSConfigManager getInstance() {
+    public static COSConfigManager getInstance(Context context) {
 
         if (INSTANCE == null) {
 
             synchronized (COSConfigManager.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new COSConfigManager();
+                    INSTANCE = new COSConfigManager(context);
+                    getKey();
                 }
             }
         }
-
         return INSTANCE;
     }
 
-    private COSConfigManager() {}
+    private static void getKey() {
+        SharedPreferences settings = sContext.getSharedPreferences("UserInfo", 0);
+        appid = settings.getString("appid", "");
+        secretId = settings.getString("secretId", "");
+        secretKey = settings.getString("secretKey", "");
+    }
+
+    private COSConfigManager() {
+    }
 
     public void loadFromDisk(Context context) {
 

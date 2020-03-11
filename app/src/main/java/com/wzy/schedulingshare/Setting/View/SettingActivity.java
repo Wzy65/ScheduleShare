@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -130,8 +131,12 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
             mSettingSexyTxt.setText(user.getSexy());
             mSettingAgeTxt.setText(String.valueOf(user.getAge()));
             mSettingAreaTxt.setText(user.getArea());
+            String url = mPresenter.getLocalHeadIcon();
+            if (TextUtils.isEmpty(url)) {
+                url = user.getHeadIcon();
+            }
             Glide.with(this).
-                    load(user.getHeadIcon()).
+                    load(url).
                     error(R.drawable.ic_picture_error). //异常时候显示的图片
                     placeholder(R.drawable.ic_picture_placeholder).//加载成功前显示的图片
                     fallback(R.drawable.login_head).//url为空的时候,显示的图片
@@ -173,7 +178,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
             mSettingItem5.setVisibility(View.VISIBLE);
             mSettingItem6.setVisibility(View.VISIBLE);
             mSettingItem7.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             mSettingItem1.setVisibility(View.GONE);
             mSettingItem2.setVisibility(View.GONE);
             mSettingItem3.setVisibility(View.GONE);

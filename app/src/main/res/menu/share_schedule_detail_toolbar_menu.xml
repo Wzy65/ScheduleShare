@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+    android:id="@+id/share_schedule_detail_menu_collect"
+    android:title="@string/share_schedule_detail_toolbar_menu_collect"
+    app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/share_schedule_detail_menu_collect_cancel"
+        android:title="@string/share_schedule_detail_toolbar_menu_collect"
+        app:showAsAction="never"/>
+
+</menu>

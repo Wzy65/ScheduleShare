@@ -1,6 +1,7 @@
 package com.wzy.schedulingshare.Setting.presenter.impl;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -48,22 +49,24 @@ public class SettingPresenterImpl extends BasePresenter<SettingActivity> impleme
         super(view);
     }
 
-    private final String bucket2HeadIcon = "schedulingshare-headicon-1301419202";
-    private final String accessUrlKey="assessUrlKey";
+
+    private String accessUrl;
+    private String localUrl;
 
     private Message msg;
-    private  Handler handle=new Handler(){
+    private Handler handle = new Handler() {
         @Override
-        public void handleMessage(Message message){
-            if(message.what==0){
-                final Bundle b=message.getData();
+        public void handleMessage(Message message) {
+            if (message.what == 0) {
+                final Bundle b = message.getData();
                 User user = BmobUser.getCurrentUser(User.class);
-                user.setHeadIcon(b.getString(accessUrlKey));
+                user.setHeadIcon(accessUrl);
                 user.update(new UpdateListener() {
                     @Override
                     public void done(BmobException e) {
                         if (e == null) {
-                            mView.updateHeadIcon(b.getString(accessUrlKey));
+                            mView.updateHeadIcon(accessUrl);
+                            wirteSetting(localUrl);
                             EventBus.getDefault().post(new RefreshUserEvent()); //发送EventBus事件，刷新主页侧拉栏
                         } else {
                             mView.showToast(R.string.setting_update_fail);
@@ -71,12 +74,19 @@ public class SettingPresenterImpl extends BasePresenter<SettingActivity> impleme
                         }
                     }
                 });
-            }else {
-                mView.showToast(R.string.setting_update_fail+"\n"+(String)msg.obj);
+            } else {
+                mView.showToast(R.string.setting_update_fail + "\n" + (String) msg.obj);
             }
         }
     };
 
+
+    private boolean wirteSetting(String path) {
+        SharedPreferences settings = mView.getSharedPreferences("UserInfo", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("LocalHeadIcon", path);
+        return editor.commit();
+    }
 
     @Override
     public void openSysAlbum() {
@@ -94,9 +104,10 @@ public class SettingPresenterImpl extends BasePresenter<SettingActivity> impleme
 
     @Override
     public void uploadHeadIcon(final String path) {
-        if(path!=null){
+        if (path != null) {
+            localUrl = path;
             User user = BmobUser.getCurrentUser(User.class);
-            upDateHeadIcon(user.getObjectId(),path);
+            upDateHeadIcon(user.getObjectId(), path);
 
         }
 
@@ -143,8 +154,14 @@ public class SettingPresenterImpl extends BasePresenter<SettingActivity> impleme
         });
     }
 
+    @Override
+    public String getLocalHeadIcon() {
+        SharedPreferences settings = mView.getSharedPreferences("UserInfo", 0);
+        return settings.getString("LocalHeadIcon", null);
+    }
+
     private void upDateHeadIcon(final String cosPath, final String localPath) {
-        CosXmlService cosXmlService = CosServiceFactory.getCosXmlServiceWithProperWay(mView, "");
+        CosXmlService cosXmlService = CosServiceFactory.getCosXmlServiceWithProperWay(mView.getApplicationContext(), "");
 
         TransferConfig transferConfig = new TransferConfig.Builder().build();
         /* 初始化 TransferConfig
@@ -158,7 +175,7 @@ public class SettingPresenterImpl extends BasePresenter<SettingActivity> impleme
         TransferManager transferManager = new TransferManager(cosXmlService, transferConfig);
 
         //若存在初始化分块上传的 UploadId，则赋值对应的 uploadId 值用于续传；否则，赋值 null
-        COSXMLUploadTask cosxmlUploadTask = transferManager.upload(bucket2HeadIcon, cosPath+"_headIcon", localPath, null);
+        COSXMLUploadTask cosxmlUploadTask = transferManager.upload(CosServiceFactory.bucket2HeadIcon, cosPath + "_headIcon", localPath, null);
 
 
         //设置上传进度回调
@@ -174,22 +191,20 @@ public class SettingPresenterImpl extends BasePresenter<SettingActivity> impleme
             public void onSuccess(CosXmlRequest request, CosXmlResult result) {
                 COSXMLUploadTask.COSXMLUploadTaskResult cOSXMLUploadTaskResult = (COSXMLUploadTask.COSXMLUploadTaskResult) result;
                 //mView.updateHeadIcon(localPath);
-                msg=Message.obtain();
-                msg.what=0;
-                Bundle b = new Bundle();
-                b.putString(accessUrlKey, cOSXMLUploadTaskResult.accessUrl);
-                msg.setData(b);
+                msg = Message.obtain();
+                msg.what = 0;
+                accessUrl = cOSXMLUploadTaskResult.accessUrl;
                 handle.sendMessage(msg);
-                Logger.i("上传成功-----------》"+cOSXMLUploadTaskResult.accessUrl);
+                Logger.i("上传成功-----------》" + cOSXMLUploadTaskResult.accessUrl);
             }
 
             @Override
             public void onFail(CosXmlRequest request, CosXmlClientException exception, CosXmlServiceException serviceException) {
-                msg=Message.obtain();
-                msg.what=-1;
-                msg.obj=serviceException.getMessage();
+                msg = Message.obtain();
+                msg.what = -1;
+                msg.obj = serviceException.getMessage();
                 handle.sendMessage(msg);
-                Logger.i("上传失败-----------》"+"\n"+exception.getMessage()+"\n"+serviceException.getMessage());
+                Logger.i("上传失败-----------》" + "\n" + exception.getMessage() + "\n" + serviceException.getMessage());
             }
         });
         //设置任务状态回调, 可以查看任务过程

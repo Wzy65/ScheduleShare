@@ -24,4 +24,6 @@ public interface SettingPresenter extends IBasePresenter {
     void uploadHeadIcon(String path);
 
     void updateSexy(String str);
+
+    String getLocalHeadIcon();
 }

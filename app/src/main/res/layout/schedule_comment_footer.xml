@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/schedule_comment_include"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="@drawable/btn_selected_ripple_bg_white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/share_schedule_detail_comment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        android:text="@string/share_schedule_detail_comment"
+        android:textColor="@color/colorAccent"
+        android:background="@drawable/btn_press_ripple_bg_white"
+        android:textSize="20sp"
+        />
+
+    <LinearLayout
+        android:id="@+id/share_schedule_detail_comment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingTop="10dp"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/share_schedule_detail_comment_edit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:hint="@string/share_schedule_detail_comment_hint"
+            android:maxLength="60"
+            android:maxLines="2"
+            android:textSize="16sp"
+            />
+
+        <Button
+            android:id="@+id/share_schedule_detail_comment_send"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/btn_press_comment_send"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

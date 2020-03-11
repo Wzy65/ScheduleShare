@@ -109,6 +109,11 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <activity
+            android:name=".MainFourPage.view.ShareScheduleDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
 
         <!--Bmob服务器需要-->
         <provider
