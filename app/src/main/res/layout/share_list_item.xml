@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/share_list_item_title"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/share_list_item_userIcon"
@@ -64,12 +64,22 @@
         />
 
 
+    <TextView
+        android:id="@+id/share_list_item_nickname"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_below="@+id/share_list_item_userIcon"
+        android:layout_marginLeft="10dp"
+        android:maxLines="2"
+        android:maxLength="10"
+        android:layout_marginTop="5dp"/>
 
     <TextView
         android:id="@+id/share_list_item_startTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/share_list_item_content"
+        android:layout_below="@+id/share_list_item_nickname"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
@@ -82,7 +92,7 @@
         android:id="@+id/share_list_item_startAt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/share_list_item_content"
+        android:layout_below="@+id/share_list_item_nickname"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
@@ -96,7 +106,7 @@
         android:id="@+id/share_list_item_endTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/share_list_item_content"
+        android:layout_below="@+id/share_list_item_nickname"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
@@ -111,7 +121,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/share_list_item_content"
+        android:layout_below="@+id/share_list_item_nickname"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"

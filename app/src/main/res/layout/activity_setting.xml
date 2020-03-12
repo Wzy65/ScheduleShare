@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray1"
-    tools:context="com.wzy.schedulingshare.Setting.View.SettingActivity">
+    tools:context="com.wzy.scheduleshare.Setting.View.SettingActivity">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/setting_appbar"

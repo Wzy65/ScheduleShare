@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Scheduling Share</string>
+    <string name="app_name">ScheduleShare</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -12,6 +12,27 @@
     <string name="get_tencentKey_error">获取密钥失败，图片上传功能暂不可用，请稍后重试</string>
     <string name="upload_photo_fail">图片上传失败，请重试</string>
     <string name="photo_not_find">解析错误：图片不存在或已损坏</string>
+
+
+    <!--其他界面-->
+    <string name="about_title_txt">关于本APP(版本V1.0)</string>
+    <string name="about_content_txt">\t\tSchedulingShare旨在分享和记录行程，起到一个提醒和共享的作用。\n
+        \t\t用户可以在我的我的界面添加个人的行程信息，记录将保存在手机本地；
+        也可在右上角将其分享出去，分享的内容上传网络并且出现在发现界面，其他用户可以查看和评论。\n
+        \t\t作为个人，可以将自己接下来的行程保存和分享，期待与看到它的人来一次偶然的相遇；\n
+        \t\t作为组织，可以将接下来的一些重要活动详情共享出去，让更多人的知道。例如某场粉丝见面会，某场同学重聚会，某场爱好社见面会……\n
+        \t\t作为官方，也可以将重要的事情公布于此，例如X月X日举行招聘会、在线笔试；X月X日是第几届中央重要会议的举行日；X月X日是国际某官方活动的颁布会……\n
+        \t\t该APP乃本人作为学习和兴趣所研发而出（包括但不限于完成毕设……），其中有可能有技术不成熟的地方，若大家在使用的过程遇到什么问题，可以用万能办法：重启，卸载重装（数据会丢失），
+        也可通过留言发送遇到的问题，我会综合大家所遇到的问题进行解决。若是遇到不可逆转的原因卸载重装而导致保存的记录不见，已分享的信息也许可以在后台重新找回，但是未分享的信息就无能为力了，还请大家见谅。\n
+        \t\t有学习和交流的地方可以访问项目的github地址：https://github.com/Wzy65/SchedulingShare \n
+        \t\t本APP仅供学习交流使用，请勿用于非法用途，谢谢！</string>
+
+    <string name="advice_title_txt">欢迎大家留言</string>
+    <string name="advice_title_hint">大家可以在这里留下关于你所遇到的问题或建议，并且留下联系方式。注意：若是遇到使用方面的问题，问题描述越详细越好，包括但不局限：当时操作的场景，APP的反应，例如白屏或闪退……</string>
+    <string name="advice_send">提交</string>
+    <string name="advice_error">留言内容不得为空</string>
+    <string name="advice_send_success">提交成功</string>
+    <string name="advice_send_fail">提交失败</string>
 
 
     <!-- 登陆界面LoginActivity -->
@@ -83,9 +104,6 @@
     <string name="setting_normal_hint_area">请输入您所在地域(如：珠海市)</string>
     <string name="error_setting_normal_area">请输入正确的地区名</string>
 
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_register">Register</string>
     <string name="title_activity_settings">Settings</string>
 
@@ -101,10 +119,15 @@
     <string name="tab_friendPage">好友</string>
     <string name="tab_communityPage">发现</string>
     <string name="tab_minePage">我的</string>
+    <string name="push_title">通知</string>
+    <string name="push_btn">我知道了</string>
     <!--侧拉栏内容-->
     <string name="nav_logout">退出</string>
     <string name="nav_retract">收起</string>
     <string name="nav_userinfo_nickname">昵称：%1$s</string>
+    <string name="nav_userinfo_sexy_txt">性别：%1$s</string>
+    <string name="nav_about_txt">关于</string>
+    <string name="nav_leaveMsg_txt">留言</string>
 
 
     <!--好友列表FriendListFragment-->
@@ -161,8 +184,6 @@
     <string name="main_page_title_happen">即将要发生</string>
     <string name="main_page_title_share">动态-最近</string>
     <string name="main_page_title_collect">我的关注</string>
-
-
 
 
     <!--用户信息界面UserInfoActivity-->
@@ -228,9 +249,19 @@
     <string name="comment_list_item_adapter_Image_positionKey">Iamge_position</string>
     <string name="share_schedule_detail_collect_success">添加成功</string>
     <string name="share_schedule_detail_collect_fail">添加失败</string>
-    <string name="share_schedule_detail_collect_cancel_success">取成功</string>
+    <string name="share_schedule_detail_refresh_success">刷新成功</string>
+    <string name="share_schedule_detail_refresh_fail">刷新失败</string>
+    <string name="share_schedule_detail_collect_cancel_success">取消成功</string>
     <string name="share_schedule_detail_collect_cancel_fail">取消失败</string>
     <string name="share_schedule_detail_collect_error">这是你的行程，无需再添加啦！</string>
+
+
+    <!--其他用户主页OtherPageActivity-->
+    <string name="other_page_nickname_txt">昵称：%1$s</string>
+    <string name="other_page_sexy_txt">性别：%1$s</string>
+    <string name="other_page_age_txt">年龄：%1$s</string>
+    <string name="other_page_area_txt">地区：%1$s</string>
+    <string name="other_page_phonenum_txt">手机：%1$s</string>
 
 
 </resources>

@@ -8,11 +8,12 @@
     android:background="@color/white">
 
     <LinearLayout
+        android:id="@+id/nav_header"
         android:layout_width="match_parent"
         android:layout_height="@dimen/nav_header_height"
         android:background="@drawable/side_nav_bar"
-        android:gravity="bottom"
-        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -26,21 +27,63 @@
             android:paddingTop="20dp"
             app:srcCompat="@drawable/login_head"/>
 
-        <TextView
-            android:id="@+id/nav_head_nickname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:paddingTop="10dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
-
-        <TextView
-            android:id="@+id/textView"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="android.studio@android.com"/>
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/nav_head_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingTop="10dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+            <TextView
+                android:id="@+id/nav_head_sexy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingTop="10dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+        </LinearLayout>
 
     </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/nav_head_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nav_header"
+        android:background="@drawable/btn_press_ripple_bg_white"
+        android:gravity="center_vertical"
+        android:paddingBottom="15dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="15dp"
+        android:text="@string/nav_about_txt"
+        android:textColor="@color/black3"
+        android:textSize="20sp"
+        />
+
+
+    <TextView
+        android:id="@+id/nav_head_leaveMsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nav_head_about"
+        android:background="@drawable/btn_press_ripple_bg_white"
+        android:gravity="center_vertical"
+        android:paddingBottom="15dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="15dp"
+        android:text="@string/nav_leaveMsg_txt"
+        android:textColor="@color/black3"
+        android:textSize="20sp"/>
+
 
     <View
         android:layout_width="match_parent"
@@ -63,8 +106,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:gravity="center"
-            android:background="?android:attr/selectableItemBackgroundBorderless">
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:gravity="center">
 
             <ImageView
                 android:id="@+id/img_logout"
@@ -95,8 +138,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:gravity="center"
-            android:background="?android:attr/selectableItemBackgroundBorderless">
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:gravity="center">
 
             <ImageView
                 android:id="@+id/img_retract"

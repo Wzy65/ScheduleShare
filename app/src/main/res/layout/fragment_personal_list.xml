@@ -3,8 +3,8 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:background="@drawable/mine_page_bg"
-              tools:context="com.wzy.schedulingshare.Fragment1">
+              android:background="@drawable/personal_page_bg"
+              tools:context="com.wzy.scheduleshare.Fragment1">
 
 
 

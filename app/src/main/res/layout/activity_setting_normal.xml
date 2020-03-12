@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/gray1"
     android:orientation="vertical"
-    tools:context="com.wzy.schedulingshare.Setting.View.SettingPasswordActivity">
+    tools:context="com.wzy.scheduleshare.Setting.View.SettingPasswordActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/setting_appbar"

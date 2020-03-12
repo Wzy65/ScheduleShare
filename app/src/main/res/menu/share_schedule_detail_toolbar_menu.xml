@@ -8,7 +8,7 @@
 
     <item
         android:id="@+id/share_schedule_detail_menu_collect_cancel"
-        android:title="@string/share_schedule_detail_toolbar_menu_collect"
+        android:title="@string/share_schedule_detail_toolbar_menu_collect_cancel"
         app:showAsAction="never"/>
 
 </menu>

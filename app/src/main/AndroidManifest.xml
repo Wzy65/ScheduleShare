@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.wzy.schedulingshare">
+          package="com.wzy.scheduleshare">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
@@ -36,16 +36,16 @@
 
 
     <application
-        android:name=".MyApplication"
+        android:name="com.wzy.scheduleshare.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_schedulingshares"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_schedulingshares"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:theme="@style/FullScreenWithBackground"
-            android:name=".base.view.SplashActivity">
+            android:name="com.wzy.scheduleshare.base.view.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -53,72 +53,83 @@
         </activity>
 
         <activity
-            android:name=".MainFourPage.view.MainActivity"
+            android:name="com.wzy.scheduleshare.MainFourPage.view.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTask">
         </activity>
 
         <activity
-            android:name=".LoginAndRegister.view.LoginActivity"
+            android:name="com.wzy.scheduleshare.LoginAndRegister.view.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTask">
         </activity>
 
         <activity
-            android:name=".LoginAndRegister.view.RegisterActivity"
+            android:name="com.wzy.scheduleshare.LoginAndRegister.view.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTask">
         </activity>
 
         <activity
-            android:name=".Setting.View.SettingActivity"
+            android:name="com.wzy.scheduleshare.Setting.View.SettingActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".base.view.TakePhotosActivity">
+            android:name="com.wzy.scheduleshare.base.view.TakePhotosActivity">
         </activity>
 
         <activity
-            android:name=".base.view.ScheduleTakePhotosActivity">
+            android:name="com.wzy.scheduleshare.base.view.ScheduleTakePhotosActivity">
         </activity>
 
         <activity
-            android:name=".Setting.View.SettingPasswordActivity"
+            android:name="com.wzy.scheduleshare.Setting.View.SettingPasswordActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".Setting.View.SettingNormalActivity"
+            android:name="com.wzy.scheduleshare.Setting.View.SettingNormalActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".MainFourPage.view.UserInfoActivity"
+            android:name="com.wzy.scheduleshare.MainFourPage.view.UserInfoActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".MainFourPage.view.NewFriendActivity"
+            android:name="com.wzy.scheduleshare.MainFourPage.view.NewFriendActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".MainFourPage.view.PersonalScheduleDetailActivity"
+            android:name="com.wzy.scheduleshare.MainFourPage.view.PersonalScheduleDetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".MainFourPage.view.ShareScheduleDetailActivity"
+            android:name="com.wzy.scheduleshare.MainFourPage.view.ShareScheduleDetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <activity
+            android:name="com.wzy.scheduleshare.Setting.View.AboutActivity">
+        </activity>
+
+        <activity
+            android:name="com.wzy.scheduleshare.Setting.View.AdviceActivity">
+        </activity>
+
+        <activity
+            android:name=".MainFourPage.view.OtherPageActivity">
+        </activity>
 
         <!--Bmob服务器需要-->
         <provider
             android:name="cn.bmob.v3.util.BmobContentProvider"
-            android:authorities="com.wzy.schedulingshare.BmobContentProvider">
+            android:authorities="com.wzy.scheduleshare.BmobContentProvider">
         </provider>
         <meta-data
             android:name="Bmob_APP_KEY"
