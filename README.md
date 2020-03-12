@@ -12,3 +12,27 @@ SchedulingShare旨在分享和记录行程，起到一个提醒和共享的作�
 ## 使用效果
 > 登录注册<br>
 ![](https://download-1301419202.cos.ap-guangzhou.myqcloud.com/%E5%88%86%E4%BA%AB.gif)
+
+> 各个界面<br>
+![](https://download-1301419202.cos.ap-guangzhou.myqcloud.com/%E5%90%84%E4%B8%AA%E7%95%8C%E9%9D%A2.gif)
+
+> 添加好友<br>
+![](https://download-1301419202.cos.ap-guangzhou.myqcloud.com/%E6%B7%BB%E5%8A%A0%E5%A5%BD%E5%8F%8B.gif)
+
+> 同意添加<br>
+![](https://download-1301419202.cos.ap-guangzhou.myqcloud.com/%E5%90%8C%E6%84%8F%E6%B7%BB%E5%8A%A0.gif)
+
+> 添加新的行程<br>
+![](https://download-1301419202.cos.ap-guangzhou.myqcloud.com/%E6%B7%BB%E5%8A%A0.gif)
+
+> 分享<br>
+![](https://download-1301419202.cos.ap-guangzhou.myqcloud.com/%E5%88%86%E4%BA%AB.gif)
+
+> 评论<br>
+![](https://download-1301419202.cos.ap-guangzhou.myqcloud.com/%E8%AF%84%E8%AE%BA.gif)
+
+> 收藏/关注<br>
+![](https://download-1301419202.cos.ap-guangzhou.myqcloud.com/%E6%94%B6%E8%97%8F.gif)
+
+
+
