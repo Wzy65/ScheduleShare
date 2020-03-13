@@ -13,6 +13,18 @@ SchedulingShare旨在分享和记录行程，起到一个提醒和共享的作�
 * 扫描二维码（特地弄成了APP的主题颜色，嘿嘿）<br>
 ![](https://download-1301419202.cos.ap-guangzhou.myqcloud.com/demo%E4%B8%8B%E8%BD%BD.png)
 
+## 实现
+* 主要分为五大模块：登录注册、好友管理、个人行程、分享行程（发现）、其他设置<br>
+* 项目使用了MVP框架模式，因为学习和使用过这个模式，有利于解耦以及将各自工作的内容分开<br>
+* 主界面采用了Viewpager和Fragment的方式，下面是TabLayout，可以实现滑动浏览不同的内容：主页、好友、发现、我的<br>
+* 项目中的列表（包括横向）都是使用的RecycleView，因为比较强大，但也有一些坑，有些许部分还不是很完美需要处理ing<br>
+* 使用到的框架：Glide 、XRichText、Takephoto、SQLite、SmartRefresh、ButterKnife、Bmob以及TencentCloud都使用的OKHttp<br>
+* 为了快速的集中在移动端的开发，特地使用了Bmob云服务，一个远端的服务器-数据库，其中数据的上传和处理都是使用Bmob实现，包括登录注册、好友管理等、各信息的查询<br>
+* 在编辑界面可以添加富文本信息，这实现依赖于XRichText框架，其中的本地信息图片地址和内容保存在SQLite数据库中，而分享的信息则会先将图片上传到腾讯云-对象存储上（因为Bmob的上传文件服务需要域名和服务器，或者需要钱，所以就放弃了），再通过返回的图片url保存在信息内容中，最后上传到Bmob服务器上<br>
+* 启动页解决了冷启动白屏的现象，并且初始化加载一些数据，一举两得。 <br>
+* 感谢github开源社区各个框架的使用文档和demo，给了我很大的帮助<br>
+* APP上的好看的图片得益于Pexels网站的免费版权图片<br>
+
          
 ## 使用效果
 > 登录注册 [点击查看原图](https://download-1301419202.cos.ap-guangzhou.myqcloud.com/%E5%88%86%E4%BA%AB.gif) <br>
