@@ -73,7 +73,7 @@ public class PersonalDetailListAdapter extends RecyclerView.Adapter<PersonalDeta
         holder.title.setText(mList.get(position).getTitle());
         holder.content.setText(mList.get(position).getBrief());
         holder.nickname.setText( BmobUser.getCurrentUser(User.class).getNickname());
-        if (mList.get(position).getUpdatedAt().contains("-")) {
+        if (!TextUtils.isEmpty(mList.get(position).getUpdatedAt()) && mList.get(position).getUpdatedAt().contains("-")) {
             holder.updateAt.setText(mList.get(position).getUpdatedAt());
         } else {
             holder.updateAt.setText(DateUtils.getDateToString(Long.valueOf(mList.get(position).getUpdatedAt())));

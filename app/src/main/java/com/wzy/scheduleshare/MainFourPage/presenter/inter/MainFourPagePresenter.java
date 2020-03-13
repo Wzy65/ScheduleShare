@@ -11,6 +11,8 @@ import com.wzy.scheduleshare.base.presenter.inter.IBasePresenter;
 public interface MainFourPagePresenter extends IBasePresenter {
     interface View{
         void showProgress(final boolean show);
+
+        void setProgressRate(int value); //更新进度条消息
     }
 
     boolean searchNewFriend(String phoneNumber);
@@ -18,4 +20,8 @@ public interface MainFourPagePresenter extends IBasePresenter {
     String getLocalHeadIcon();
 
     void clearTCKey();
+
+    void backUp();  //备份数据
+
+    void recovery(); //恢复数据
 }

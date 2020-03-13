@@ -73,6 +73,7 @@ public class MainPagePresenterImpl extends BasePresenter<MainFragment> implement
         final BmobQuery<ScheduleDetail> query = new BmobQuery<>();
         query.addWhereRelatedTo("collect_relation", new BmobPointer(user));
         query.order("updatedAt");
+        //query.include("auth"); 这里很奇怪，返回来的数据没有用户信息，评论区的却可以，很神奇
         query.setSkip(0);
         query.setLimit(limit);
         query.findObjects(new FindListener<ScheduleDetail>() {

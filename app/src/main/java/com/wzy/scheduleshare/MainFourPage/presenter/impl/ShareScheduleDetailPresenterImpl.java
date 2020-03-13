@@ -71,18 +71,21 @@ public class ShareScheduleDetailPresenterImpl extends BasePresenter<ShareSchedul
         query.findObjects(new FindListener<ScheduleDetail>() {
             @Override
             public void done(List<ScheduleDetail> list, BmobException e) {
-                if (list.size() == 0) {
-                    mView.refreshToolbar(0);
-                    Logger.i("查询到收藏失败"+e.getMessage());
-                } else {
-                    Logger.i("查询到收藏"+list.size());
-                    for (ScheduleDetail scheduleDetail : list) {
-                        if (scheduleDetail.getObjectId().equals(detail.getObjectId())) {
-                            mView.refreshToolbar(1);
-                            Logger.i("查询到收藏相同");
-                            return;
+                if (e == null) {
+                    if (list == null || list.size() == 0) {
+                        mView.refreshToolbar(0);
+                        Logger.i("查询到收藏失败" + e.getMessage());
+                    } else {
+                        Logger.i("查询到收藏" + list.size());
+                        for (ScheduleDetail scheduleDetail : list) {
+                            if (scheduleDetail.getObjectId().equals(detail.getObjectId())) {
+                                mView.refreshToolbar(1);
+                                Logger.i("查询到收藏相同");
+                                return;
+                            }
                         }
                     }
+                }else {
                     mView.refreshToolbar(0);
                 }
             }

@@ -7,18 +7,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 import com.orhanobut.logger.Logger;
-import com.sendtion.xrichtext.RichTextEditor;
 import com.tencent.cos.xml.CosXmlService;
 import com.tencent.cos.xml.exception.CosXmlClientException;
 import com.tencent.cos.xml.exception.CosXmlServiceException;
 import com.tencent.cos.xml.listener.CosXmlProgressListener;
 import com.tencent.cos.xml.model.object.PutObjectRequest;
 import com.tencent.cos.xml.model.object.PutObjectResult;
-import com.tencent.cos.xml.model.tag.eventstreaming.Progress;
-import com.tencent.cos.xml.utils.StringUtils;
 import com.wzy.scheduleshare.MainFourPage.modle.Backup;
 import com.wzy.scheduleshare.MainFourPage.modle.Friend;
 import com.wzy.scheduleshare.MainFourPage.modle.ScheduleDetail;
@@ -57,8 +53,8 @@ import cn.bmob.v3.listener.UpdateListener;
  * @Date 2020/2/23
  * @Version 1.0
  */
-public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> implements MainFourPagePresenter {
-    public MainFourPagePresenterImpl(@NonNull MainActivity view) {
+public class MainFourPagePresenterImpl1 extends BasePresenter<MainActivity> implements MainFourPagePresenter {
+    public MainFourPagePresenterImpl1(@NonNull MainActivity view) {
         super(view);
     }
 
@@ -172,41 +168,40 @@ public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> imple
         private boolean isSuccess;
 
         public RecoveryTask(MainActivity activity) {
-            ref = new WeakReference<MainActivity>(activity);
-            user = BmobUser.getCurrentUser(User.class);
-            isSuccess = true;
+            ref=new WeakReference<MainActivity>(activity);
+            user=BmobUser.getCurrentUser(User.class);
+            isSuccess=true;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            if (ref.get() == null) {
+            if(ref.get()==null){
                 publishProgress(100);
                 return false;
             }
-            BmobQuery<Backup> query = new BmobQuery<>();
-            query.addWhereEqualTo("auth", user);
+           BmobQuery<Backup> query=new BmobQuery<>();
+            query.addWhereEqualTo("user",user);
             query.findObjects(new FindListener<Backup>() {
                 @Override
                 public void done(List<Backup> list, BmobException e) {
-                    if (e == null) {
-                        if (list.size() == 0) {
-                            Message msg = Message.obtain();
-                            msg.obj = ref.get().getString(R.string.recovery_get_zero);
+                    if(e==null){
+                        if(list.size()==0){
+                            Message msg=Message.obtain();
+                            msg.obj=ref.get().getString(R.string.recovery_get_zero);
                             mHandler.sendMessage(msg);
                             publishProgress(100);
-                        } else {
-                            insert2Local(list);
-                            publishProgress(60);
+                        }else {
+                            publishProgress(20);
+                            queryDetail(list.get(0));
                         }
-                    } else {
-                        Message msg = Message.obtain();
-                        msg.obj = ref.get().getString(R.string.recovery_get_error);
+                    }else {
+                        Message msg=Message.obtain();
+                        msg.obj=ref.get().getString(R.string.recovery_get_error);
                         publishProgress(100);
-                        isSuccess = false;
+                        isSuccess=false;
                     }
                 }
             });
-
             publishProgress(100);
             return isSuccess;
 
@@ -219,24 +214,49 @@ public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> imple
 
         @Override
         protected void onPostExecute(Boolean flag) {
-            if (ref.get() == null) {
+            if(ref.get()==null){
                 return;
             }
-            if (isSuccess) {
+            if(isSuccess){
                 ref.get().showToast(R.string.recovery_success);
-            } else {
+            }else {
                 ref.get().showToast(R.string.recovery_fail);
             }
         }
 
-        private void insert2Local(List<Backup> list) {
-            int rate = 60;
-            int addRate = 40 / list.size();
-            for (Backup backup : list) {
-                ScheduleDetail detail = new ScheduleDetail(backup);
+        private void queryDetail(Backup backup){
+            BmobQuery<ScheduleDetail> query=new BmobQuery<>();
+            query.addWhereRelatedTo("detail_relation",new BmobPointer(backup));
+            query.findObjects(new FindListener<ScheduleDetail>() {
+                @Override
+                public void done(List<ScheduleDetail> list, BmobException e) {
+                    if(e==null){
+                        if(list.size()==0){
+                            Message msg=Message.obtain();
+                            msg.obj=ref.get().getString(R.string.recovery_get_zero);
+                            mHandler.sendMessage(msg);
+                            publishProgress(100);
+                        }else {
+                            publishProgress(60);
+                            insert2Local(list);
+                        }
+                    }else {
+                        Message msg=Message.obtain();
+                        msg.obj=ref.get().getString(R.string.recovery_get_error);
+                        publishProgress(100);
+                        isSuccess=false;
+                    }
+                }
+            });
+        }
+
+        private void insert2Local(List<ScheduleDetail> list){
+            int rate=60;
+            int addRate=40/list.size();
+            for(ScheduleDetail detail:list){
                 detail.setAuth(user);
                 DBUtils.getINSTANCE(ref.get()).insert2Local(detail);
-                rate += addRate;
+                rate+=addRate;
                 publishProgress(rate);
             }
         }
@@ -244,11 +264,13 @@ public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> imple
         private Handler mHandler = new Handler() {
             @Override
             public void handleMessage(Message message) {
-                ref.get().showToast((String) message.obj);
+                ref.get().showToast((String)message.obj);
             }
         };
 
     }
+
+
 
 
     /*备份任务*/
@@ -258,12 +280,14 @@ public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> imple
         private WeakReference<MainActivity> ref;
         private int rate = 0;
         private User user;
+        private BmobRelation relation;
         private boolean isSuccess;
         private CountDownLatch countDownLatch;
 
         public BackupTask(MainActivity activity) {
             ref = new WeakReference<MainActivity>(activity);
             user = BmobUser.getCurrentUser(User.class);
+            relation = new BmobRelation();
             isSuccess = true;
         }
 
@@ -281,21 +305,22 @@ public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> imple
             }
             rate += 10;
             publishProgress(rate);
-            int addRate1 = 50 / list.size();
-            int addRate2 = 40 / list.size();
+            int addRate1 = 60 / list.size();
+            int addRate2 = 20 / list.size();
             for (ScheduleDetail d : list) {
                 photos = getEditDataPhoto(d, addRate1); //将本地图片上传网络并得到url
                 setEditDataPhoto(d, photos);  //将url替换本地图片的地址
                 upLoadBmob(d, addRate2);
             }
 
-                        /*阻塞，所有的上传成功后再执行下面的过程*/
+            /*阻塞，所有的上传成功后再执行下面的过程*/
             try {
                 countDownLatch.await();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
+            checkIsExist();
             publishProgress(100);
             return isSuccess;
         }
@@ -318,93 +343,84 @@ public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> imple
         }
 
         private List<String> getEditDataPhoto(ScheduleDetail d, int addRate) {
-            List<String> imagList=new ArrayList<>();
             List<String> photos = XRichTextStringUtils.getTextFromHtml(d.getContent(), true);
             if (photos.size() == 0) {
                 rate += addRate;
                 publishProgress(addRate);
-                return imagList;
+                return photos;
             }
             addRate = addRate / photos.size();
             int i = 0;
             for (String path : photos) {
-                if(path.startsWith("http")){
-                    imagList.add(path);
-                    continue;
-                }
-                upDatePhoto(BmobUser.getCurrentUser(User.class).getObjectId() + "/" + d.getCreateTime() + "/" + i, path, imagList);
+                upDatePhoto(BmobUser.getCurrentUser(User.class).getObjectId() + "/" + d.getCreateTime() + "/" + i, path, photos);
                 rate += addRate;
                 publishProgress(rate);
                 i++;
             }
-            return imagList;
+            return photos;
         }
 
-
-        private void upLoadBmob(final ScheduleDetail d, final int addRate) {
-            /*先检查是否以已存在，避免重复数据*/
-            BmobQuery<Backup> bq1 = new BmobQuery<>();
-            bq1.addWhereEqualTo("auth", user);
-            BmobQuery<Backup> bq2 = new BmobQuery<>();
-            bq2.addWhereEqualTo("createTime", d.getCreateTime());
-            List<BmobQuery<Backup>> list = new ArrayList<>();
-            list.add(bq1);
-            list.add(bq2);
+        /*检查是否已经有备份*/
+        private void checkIsExist() {
             BmobQuery<Backup> query = new BmobQuery<>();
-            query.and(list);
+            query.addWhereEqualTo("user", user);
             query.findObjects(new FindListener<Backup>() {
                 @Override
                 public void done(List<Backup> list, BmobException e) {
                     if (e == null) {
-                        final Backup backup = new Backup(d);
-                        BmobACL acl = new BmobACL();  //创建ACL对象
-                        acl.setReadAccess(user, true); // 设置当前用户可写的权限
-                        acl.setWriteAccess(user, true); // 设置当前用户可写的权限
-                        backup.setACL(acl);
-
+                        Backup backup = new Backup(new ScheduleDetail());
+                        //backup.setUser(user);
+                        //backup.setDetail_relation(relation);
+                        Logger.i("备份行程数量" + relation.getObjects().size() + "  " + relation.getObjects().get(0).getObjectId());
                         if (list.size() == 0) {
                             backup.save(new SaveListener<String>() {
                                 @Override
                                 public void done(String s, BmobException e) {
                                     if (e != null) {
                                         isSuccess = false;
-                                        Message msg = Message.obtain();
-                                        msg.obj = backup.getTitle();
-                                        mHandler.sendMessage(msg);
-                                        Logger.i("备份创建失败："+e.getMessage());
-                                    } else {
-                                        backup.setObjectId(s);
                                     }
                                 }
                             });
                         } else {
-                            backup.setObjectId(list.get(0).getObjectId());
-                            backup.update(new UpdateListener() {
+                            backup.update(list.get(0).getObjectId(), new UpdateListener() {
                                 @Override
                                 public void done(BmobException e) {
                                     if (e != null) {
                                         isSuccess = false;
-                                        Message msg = Message.obtain();
-                                        msg.obj = backup.getTitle();
-                                        mHandler.sendMessage(msg);
-                                        Logger.i("备份更新失败："+e.getMessage());
                                     }
                                 }
                             });
                         }
                     } else {
                         isSuccess = false;
-                        Message msg = Message.obtain();
-                        msg.obj = d.getTitle();
+                    }
+                }
+            });
+        }
+
+        private void upLoadBmob(final ScheduleDetail d, final int addRate) {
+            BmobACL acl = new BmobACL();  //创建ACL对象
+            acl.setReadAccess(user, true); // 设置当前用户可写的权限
+            acl.setWriteAccess(user, true); // 设置当前用户可写的权限
+            d.setACL(acl);
+            d.save(new SaveListener<String>() {
+                @Override
+                public void done(String s, BmobException e) {
+                    if (e != null) {
+                        isSuccess = false;
+                        Message msg=Message.obtain();
+                        msg.obj=d.getTitle();
                         mHandler.sendMessage(msg);
-                        Logger.i("备份失败："+e.getMessage());
+                    } else {
+                        d.setObjectId(s);
+                        relation.add(d);
+                        Logger.i("备份添加" + relation.getObjects().size());
                     }
                     rate += addRate;
                     publishProgress(rate);
                     countDownLatch.countDown();
                 }
             });
-
         }
 
         private void setEditDataPhoto(ScheduleDetail d, List<String> imagList) {
@@ -445,7 +461,7 @@ public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> imple
             } catch (CosXmlClientException e) {
                 e.printStackTrace();
                 Message msg = Message.obtain();
-                msg.obj = localPath;
+                msg.obj=localPath;
                 mHandler.sendMessage(msg);
                 isSuccess = false;
                 Logger.i("上传失败-----------》" + "\n" + e.getMessage());
@@ -458,7 +474,7 @@ public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> imple
         private Handler mHandler = new Handler() {
             @Override
             public void handleMessage(Message message) {
-                ref.get().showToast(String.format(ref.get().getString(R.string.backup_detail_fial), (String) message.obj));
+                ref.get().showToast(String.format(ref.get().getString(R.string.backup_detail_fial) , (String)message.obj));
             }
         };
 

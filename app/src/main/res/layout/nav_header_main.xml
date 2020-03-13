@@ -84,6 +84,34 @@
         android:textColor="@color/black3"
         android:textSize="20sp"/>
 
+    <TextView
+        android:id="@+id/nav_head_backup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nav_head_leaveMsg"
+        android:background="@drawable/btn_press_ripple_bg_white"
+        android:gravity="center_vertical"
+        android:paddingBottom="15dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="15dp"
+        android:text="@string/nav_backup_txt"
+        android:textColor="@color/black3"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/nav_head_recovery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nav_head_backup"
+        android:background="@drawable/btn_press_ripple_bg_white"
+        android:gravity="center_vertical"
+        android:paddingBottom="15dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="15dp"
+        android:text="@string/nav_recovery_txt"
+        android:textColor="@color/black3"
+        android:textSize="20sp"/>
+
 
     <View
         android:layout_width="match_parent"

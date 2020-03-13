@@ -125,6 +125,7 @@ public class ShareScheduleDetailActivity extends BaseActivity<ShareScheduleDetai
         mAdapter.setHasStableIds(true);
         mShareScheduleDetailRecycleView.setLayoutManager(new LinearLayoutManager(this));
         mShareScheduleDetailRecycleView.setAdapter(mAdapter);
+        mShareScheduleDetailRecycleView.setNestedScrollingEnabled(false);
         mShareScheduleDetailRecycleView.addItemDecoration(new RecyclerViewDivider(this, LinearLayout.HORIZONTAL, 1, getResources().getColor(R.color.gray3)));
         mAdapter.setOnItemClickListener(new CommentsListAdapter.OnItemClickListener() {
             @Override

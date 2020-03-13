@@ -20,7 +20,7 @@ public interface PersonalScheduleDetailPresenter extends IBasePresenter {
 
         void setDetail(ScheduleDetail detail);
 
-        void saveDetail(String content,boolean isUpload);
+        void saveDetail(String content, boolean isUpload, boolean isShare);
 
         void finishActivity();
     }
@@ -33,7 +33,7 @@ public interface PersonalScheduleDetailPresenter extends IBasePresenter {
 
     void saveTempDetail(String title, String content, String startAt, String endAt); //保存临时信息，避免数据丢失，在onStop调用
 
-    void saveDetail(String title, String content, String startAt, String endAt, ScheduleDetail detail, boolean isUpload); //保存信息，插入LocalDetailTable表
+    void saveDetail(String title, String content, String startAt, String endAt, ScheduleDetail detail, boolean isUpload, boolean isShare); //保存信息，插入LocalDetailTable表
 
     void checkTemp();   //检查有无上次保存的临时信息
 

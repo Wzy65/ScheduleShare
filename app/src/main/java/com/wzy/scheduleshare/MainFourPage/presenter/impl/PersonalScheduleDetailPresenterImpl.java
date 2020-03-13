@@ -86,7 +86,7 @@ public class PersonalScheduleDetailPresenterImpl extends BasePresenter<PersonalS
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Logger.i("引用的简略是"+brief.toString());
+        Logger.i("引用的简略是" + brief.toString());
         return content.toString();
     }
 
@@ -104,7 +104,7 @@ public class PersonalScheduleDetailPresenterImpl extends BasePresenter<PersonalS
     }
 
     @Override
-    public void saveDetail(String title, String content, String startAt, String endAt, ScheduleDetail d, boolean isUpload) {
+    public void saveDetail(String title, String content, String startAt, String endAt, ScheduleDetail d, boolean isUpload, boolean isShare) {
         ScheduleDetail detail;
         if (d != null) {
             detail = d;
@@ -114,11 +114,9 @@ public class PersonalScheduleDetailPresenterImpl extends BasePresenter<PersonalS
         detail.setAuth(BmobUser.getCurrentUser(User.class));
         detail.setTitle(title);
         detail.setContent(content);
-        String temp=detail.getBrief();
-        if (TextUtils.isEmpty(temp)) {
-            temp=brief.toString();
-        }else {
-            temp=temp+brief.toString();
+        String temp = detail.getBrief();
+        if (!isShare) {
+            temp = brief.toString();
         }
         if (temp.length() <= 60) {
             detail.setBrief(temp);
@@ -129,7 +127,7 @@ public class PersonalScheduleDetailPresenterImpl extends BasePresenter<PersonalS
         detail.setEndAT(endAt);
         detail.setUpdatedAt(String.valueOf(System.currentTimeMillis()));
         detail.setStatus(mView.getStatus());
-        Logger.i("简略是"+detail.getBrief());
+        Logger.i("简略是" + detail.getBrief());
         if (d != null) {
             detail.setCreateTime(d.getCreateTime());
             EventBus.getDefault().post(new RefreshScheduleListEvent(detail));
@@ -150,9 +148,9 @@ public class PersonalScheduleDetailPresenterImpl extends BasePresenter<PersonalS
                 }
             });
         }
-        Logger.i("要插入数据库的id："+detail.getObjectId());
+        Logger.i("要插入数据库的id：" + detail.getObjectId());
         DBUtils.getINSTANCE(mView).insert2Local(detail);
-        if(mView.getStatus().equals("0")) {
+        if (mView.getStatus().equals("0")) {
             mView.showToast(R.string.schedule_detail_save_success);
         }
         mView.finishActivity();
@@ -244,11 +242,11 @@ public class PersonalScheduleDetailPresenterImpl extends BasePresenter<PersonalS
             setEditDataPhoto();
             upLoadBmob(new SaveListener<String>() {
                 @Override
-                public void done(String s,BmobException e) {
+                public void done(String s, BmobException e) {
                     msg = e;
                     detail.setObjectId(s);
                     ref.get().setDetail(detail);
-                    ref.get().saveDetail(detail.getContent(), false);
+                    ref.get().saveDetail(detail.getContent(), false, true);
                     Logger.i("行程的id：" + detail.getObjectId());
                 }
             });
@@ -333,7 +331,6 @@ public class PersonalScheduleDetailPresenterImpl extends BasePresenter<PersonalS
             } catch (CosXmlClientException e) {
                 e.printStackTrace();
                 Message msg = Message.obtain();
-                msg.obj = e.getMessage();
                 mHandler.sendMessage(msg);
                 Logger.i("上传失败-----------》" + "\n" + e.getMessage());
             } catch (CosXmlServiceException e) {
@@ -345,7 +342,7 @@ public class PersonalScheduleDetailPresenterImpl extends BasePresenter<PersonalS
         private Handler mHandler = new Handler() {
             @Override
             public void handleMessage(Message message) {
-                ref.get().showToast(R.string.upload_photo_fail + "\n" + (String) message.obj);
+                ref.get().showToast(R.string.upload_photo_fail + "\n" + ref.get().getString(R.string.upload_photo_error));
             }
         };
 

@@ -114,7 +114,7 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
             String end = DateUtils.getDateToString(Long.valueOf(mDetail.getEndAT()));
             showTemp(mDetail.getTitle(), mDetail.getContent(),
                     start.substring(0, 10), start.substring(11, 16), end.substring(0, 10), end.substring(11, 16));
-            if(mDetail.getStatus().equals("1")){
+            if (mDetail.getStatus().equals("1")) {
                 mShareScheduleDetailGotoComment.setVisibility(View.VISIBLE);
             }
         }
@@ -193,7 +193,7 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
                 break;
             case R.id.personal_schedule_detail_menu_save:
                 if (checkDate()) {
-                    saveDetail(mPresenter.getEditData(mScheduleDetailContnt),true);
+                    saveDetail(mPresenter.getEditData(mScheduleDetailContnt), true,false);
                 }
                 break;
             case R.id.personal_schedule_detail_menu_share:
@@ -251,7 +251,7 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
     }
 
     @Override
-    public void saveDetail(String content, boolean isUpload) {
+    public void saveDetail(String content, boolean isUpload, boolean isShare) {
         if (mScheduleDetailStartDate.getText().equals(getString(R.string.schedule_detail_chooseDate)) ||
                 mScheduleDetailStartTime.getText().equals(getString(R.string.schedule_detail_chooseTime))) {
             showToast(R.string.schedule_detail_noDate_error);
@@ -261,7 +261,7 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
                 content,
                 String.valueOf(DateUtils.getStringToDate(mScheduleDetailStartDate.getText() + " " + mScheduleDetailStartTime.getText())),
                 String.valueOf(DateUtils.getStringToDate(mScheduleDetailEndDate.getText() + " " + mScheduleDetailEndTime.getText())),
-                mDetail, isUpload
+                mDetail, isUpload, isShare
         );
     }
 
@@ -395,8 +395,8 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
                 showDialog4ChoosePhoto();
                 break;
             case R.id.share_schedule_detail_goto_comment:
-                Intent intent=new Intent(PersonalScheduleDetailActivity.this,ShareScheduleDetailActivity.class);
-                intent.putExtra(ShareScheduleDetailActivity.INTENT_TO_SSDA_KEY,mDetail);
+                Intent intent = new Intent(PersonalScheduleDetailActivity.this, ShareScheduleDetailActivity.class);
+                intent.putExtra(ShareScheduleDetailActivity.INTENT_TO_SSDA_KEY, mDetail);
                 startActivity(intent);
                 break;
         }
@@ -543,7 +543,7 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
     @Override
     public void setDetail(ScheduleDetail detail) {
         mDetail = detail;
-        Logger.i("设置新的Detail："+mDetail.getObjectId());
+        Logger.i("设置新的Detail：" + mDetail.getObjectId());
     }
 
     @OnClick(R.id.share_schedule_detail_goto_comment)

@@ -21,10 +21,13 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.wzy.scheduleshare.LoginAndRegister.view.LoginActivity;
 import com.wzy.scheduleshare.R;
+import com.wzy.scheduleshare.Setting.event.LogoutEvent;
 import com.wzy.scheduleshare.Setting.presenter.impl.SettingPresenterImpl;
 import com.wzy.scheduleshare.Setting.presenter.inter.SettingPresenter;
 import com.wzy.scheduleshare.base.modle.User;
 import com.wzy.scheduleshare.base.view.impl.BaseActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -208,6 +211,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         editor.putString("LocalHeadIcon",null);
         editor.putString("lastPush",null);
         editor.commit();
+        EventBus.getDefault().post(new LogoutEvent());
         startActivity(intent);
         finish();
     }

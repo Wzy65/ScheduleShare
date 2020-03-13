@@ -12,6 +12,7 @@
     <string name="get_tencentKey_error">获取密钥失败，图片上传功能暂不可用，请稍后重试</string>
     <string name="upload_photo_fail">图片上传失败，请重试</string>
     <string name="photo_not_find">解析错误：图片不存在或已损坏</string>
+    <string name="upload_photo_error">图片上传失败</string>
 
 
     <!--其他界面-->
@@ -121,6 +122,26 @@
     <string name="tab_minePage">我的</string>
     <string name="push_title">通知</string>
     <string name="push_btn">我知道了</string>
+    <string name="backup_title">用户须知</string>
+    <string name="backup_left_btn">暂不备份</string>
+    <string name="backup_right_btn">知道了，开始备份</string>
+    <string name="backup_detail_fial">行程：%1$s上传失败</string>
+    <string name="backup_success">备份成功</string>
+    <string name="backup_fail">备份失败或部分失败，请重试</string>
+    <string name="backup_progress_title">加载</string>
+    <string name="backup_progress_msg">正在努力上传，请耐心等候……</string>
+    <string name="backup_msg">\t备份需要将个人行程上传网络，请保持网络畅通，不要关闭本界面\n\t注意，备份后远端会覆盖以前的记录，并且图片将以网络图片形式存在，请自行保存相关数据</string>
+    <string name="recovery_title">用户须知</string>
+    <string name="recovery_msg">\t恢复数据需要从网络下载，请保持网络畅通，不要关闭本界面\n\t注意，恢复后图片将以网络图片形式存在，访问需要连接网络,恢复成功后将删除服务端保存！</string>
+    <string name="recovery_left_btn">取消恢复</string>
+    <string name="recovery_right_btn">知道了，开始恢复</string>
+    <string name="recovery_progress_title">加载</string>
+    <string name="recovery_progress_msg">正在努力恢复数据，请耐心等候……</string>
+    <string name="recovery_success">恢复成功</string>
+    <string name="recovery_get_error">获取数据失败，请重试</string>
+    <string name="recovery_get_zero">远端并不存在备份数据，请确认</string>
+    <string name="recovery_fail">恢复失败或部分失败，请重试</string>
+
     <!--侧拉栏内容-->
     <string name="nav_logout">退出</string>
     <string name="nav_retract">收起</string>
@@ -128,6 +149,9 @@
     <string name="nav_userinfo_sexy_txt">性别：%1$s</string>
     <string name="nav_about_txt">关于</string>
     <string name="nav_leaveMsg_txt">留言</string>
+    <string name="nav_backup_txt">备份</string>
+    <string name="nav_recovery_txt">恢复</string>
+
 
 
     <!--好友列表FriendListFragment-->

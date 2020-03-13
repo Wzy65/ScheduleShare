@@ -3,11 +3,13 @@ package com.wzy.scheduleshare.MainFourPage.view;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -38,7 +40,6 @@ import com.orhanobut.logger.Logger;
 import com.wzy.scheduleshare.MainFourPage.adapter.TitleFragmentPagerAdapter;
 import com.wzy.scheduleshare.MainFourPage.event.RefreshFriendListEvent;
 import com.wzy.scheduleshare.MainFourPage.event.RefreshNewFriendEvent;
-import com.wzy.scheduleshare.MainFourPage.event.RefreshShareScheduleListEvent;
 import com.wzy.scheduleshare.MainFourPage.event.RefreshUserEvent;
 import com.wzy.scheduleshare.MainFourPage.event.ShowProgressEvent;
 import com.wzy.scheduleshare.MainFourPage.presenter.impl.MainFourPagePresenterImpl;
@@ -47,6 +48,7 @@ import com.wzy.scheduleshare.R;
 import com.wzy.scheduleshare.Setting.View.AboutActivity;
 import com.wzy.scheduleshare.Setting.View.AdviceActivity;
 import com.wzy.scheduleshare.Setting.View.SettingActivity;
+import com.wzy.scheduleshare.Setting.event.LogoutEvent;
 import com.wzy.scheduleshare.base.modle.User;
 import com.wzy.scheduleshare.base.view.impl.BaseActivity;
 
@@ -72,6 +74,8 @@ import cn.bmob.v3.BmobUser;
  * @Version 1.0
  */
 public class MainActivity extends BaseActivity<MainFourPagePresenter> implements MainFourPagePresenter.View {
+    private ProgressDialog mProgressDialog;
+
     @BindView(R.id.nav_logout)
     RelativeLayout mNavLogout;
     @BindView(R.id.nav_retract)
@@ -110,6 +114,10 @@ public class MainActivity extends BaseActivity<MainFourPagePresenter> implements
     TextView mNavHeadAbout;
     @BindView(R.id.nav_head_leaveMsg)
     TextView mNavHeadLeaveMsg;
+    @BindView(R.id.nav_head_backup)
+    TextView mNavHeadBackup;
+    @BindView(R.id.nav_head_recovery)
+    TextView mNavHeadRecovery;
 
     @Override
     protected int getLayoutId() {
@@ -275,7 +283,7 @@ public class MainActivity extends BaseActivity<MainFourPagePresenter> implements
     }
 
 
-    @OnClick({R.id.nav_logout, R.id.nav_retract, R.id.nav_head_about, R.id.nav_head_leaveMsg})
+    @OnClick({R.id.nav_logout, R.id.nav_retract, R.id.nav_head_about, R.id.nav_head_leaveMsg, R.id.nav_head_backup, R.id.nav_head_recovery})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.nav_logout:
@@ -290,7 +298,77 @@ public class MainActivity extends BaseActivity<MainFourPagePresenter> implements
             case R.id.nav_head_leaveMsg:
                 startActivity(new Intent(MainActivity.this, AdviceActivity.class));
                 break;
+            case R.id.nav_head_backup:
+                showDialog2backUp();
+                break;
+            case R.id.nav_head_recovery:
+                showDialog2recovery();
+                break;
         }
+    }
+
+    private void showProgressDialog(@StringRes int title, @StringRes int msg) {
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        mProgressDialog.setCancelable(true);
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        mProgressDialog.setTitle(getString(title));
+        mProgressDialog.setMax(100);
+        mProgressDialog.setMessage(getString(msg));
+        mProgressDialog.show();
+    }
+
+    /*更新进度条*/
+    @Override
+    public void setProgressRate(int value) {
+        mProgressDialog.setProgress(value);
+        if (value == 100) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+    private void showDialog2backUp() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.backup_title));
+        builder.setMessage(getString(R.string.backup_msg));
+        builder.setPositiveButton(R.string.backup_right_btn, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mPresenter.backUp();
+                showProgressDialog(R.string.backup_progress_title, R.string.backup_progress_msg);
+            }
+        });
+        builder.setNeutralButton(R.string.backup_left_btn, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setCancelable(false);
+        builder.create().show();
+    }
+
+    private void showDialog2recovery() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.recovery_title));
+        builder.setMessage(getString(R.string.recovery_msg));
+        builder.setPositiveButton(R.string.recovery_right_btn, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mPresenter.recovery();
+                showProgressDialog(R.string.recovery_progress_title, R.string.recovery_progress_msg);
+            }
+        });
+        builder.setNeutralButton(R.string.recovery_left_btn, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setCancelable(false);
+        builder.create().show();
     }
 
 
@@ -382,6 +460,12 @@ public class MainActivity extends BaseActivity<MainFourPagePresenter> implements
         showProgress(event.getFlag());
     }
 
+    /*用户退出登录*/
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLogoutEvent(LogoutEvent event) {
+        finish();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -392,7 +476,7 @@ public class MainActivity extends BaseActivity<MainFourPagePresenter> implements
     /*处理粘性事件，展示服务端返回的内容*/
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void receiveSoundRecongnizedmsg(String msg) {
-        Logger.i("接收到粘性事件"+msg);
+        Logger.i("接收到粘性事件" + msg);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.push_title));
         builder.setMessage(msg);
@@ -405,7 +489,7 @@ public class MainActivity extends BaseActivity<MainFourPagePresenter> implements
         builder.create().show();
 
         MessageEvent stickyEvent = EventBus.getDefault().getStickyEvent(MessageEvent.class);
-        if(stickyEvent!=null){
+        if (stickyEvent != null) {
             EventBus.getDefault().removeStickyEvent(stickyEvent);
         }
     }

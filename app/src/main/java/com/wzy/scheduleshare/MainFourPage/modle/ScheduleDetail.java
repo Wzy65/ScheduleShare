@@ -17,16 +17,16 @@ import cn.bmob.v3.datatype.BmobRelation;
 * */
 public class ScheduleDetail extends BmobObject {
 
-    private String createTime;   //保存在数据库的主键值
-    private String title;  //标题
-    private String content; //内容
-    private String brief;  //用于在list界面的content的简略信息
-    private String startAt;  //事件开始时间
-    private String endAT; //事件结束时间
-    private User auth;   //作者
-    private String status;  //状态码，0:未分享  1::已分享
+    protected String createTime;   //保存在数据库的主键值
+    protected String title;  //标题
+    protected String content; //内容
+    protected String brief;  //用于在list界面的content的简略信息
+    protected String startAt;  //事件开始时间
+    protected String endAT; //事件结束时间
+    protected User auth;   //作者
+    protected String status;  //状态码，0:未分享  1::已分享
 
-    private BmobRelation comment_relation;   //评论
+    protected BmobRelation comment_relation;   //评论
 
     public BmobRelation getComment_relation() {
         return comment_relation;
@@ -111,5 +111,23 @@ public class ScheduleDetail extends BmobObject {
             }
         }
         return false;
+    }
+
+    public ScheduleDetail(){}
+
+    /*用于还原数据*/
+    public ScheduleDetail(Backup backup){
+        this.createTime = backup.getCreateTime();   //保存在数据库的主键值
+        this.title = backup.getTitle();  //标题
+        this.content = backup.getContent(); //内容
+        this.brief = backup.getBrief();  //用于在list界面的content的简略信息
+        this.startAt = backup.getStartAt();  //事件开始时间
+        this.endAT = backup.getEndAT(); //事件结束时间
+        this.auth = backup.getAuth();   //作者
+        this.status = backup.getStatus();  //状态码，0:未分享  1::已分享 2:备份数据，不应展示
+        this.comment_relation = backup.getComment_relation();   //评论
+        setCreatedAt(backup.getCreatedAt());
+        setUpdatedAt(backup.getUpdatedAt());
+        setObjectId(backup.getBackId());
     }
 }
