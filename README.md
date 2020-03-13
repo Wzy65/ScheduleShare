@@ -11,7 +11,7 @@ SchedulingShare旨在分享和记录行程，起到一个提醒和共享的作�
 ## 下载Demo（仅供学习交流，切勿作他用）
 [下载地址](https://download-1301419202.cos.ap-guangzhou.myqcloud.com/app-debug.apk)<br>
 * 扫描二维码（特地弄成了APP的主题颜色，嘿嘿）<br>
-![](https://download-1301419202.cos.ap-guangzhou.myqcloud.com/demo%E4%B8%8B%E8%BD%BD.png)
+![](https://download-1301419202.cos.ap-guangzhou.myqcloud.com/demo_download.png)
 
 ## 实现
 * 主要分为五大模块：登录注册、好友管理、个人行程、分享行程（发现）、其他设置<br>
