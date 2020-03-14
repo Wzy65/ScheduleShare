@@ -63,6 +63,7 @@ public class FriendListFragment extends BaseFragment<FriendPagePresenter> implem
         mFriendListAdapter = new FriendListAdapter(getContext(), mList);
         mFriendRecycleview.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         mFriendRecycleview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mFriendListAdapter.setHasStableIds(true);
         mFriendRecycleview.setAdapter(mFriendListAdapter);
         mPresenter.queryFriends();
 
