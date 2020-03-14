@@ -9,7 +9,7 @@ SchedulingShare旨在分享和记录行程，起到一个提醒和共享的作�
 该APP乃本人作为学习和兴趣所研发而出（包括但不限于完成毕设……），其中有可能有技术不成熟的地方，大家可以多给些建议，谢谢！<br>
 
 ## 下载Demo（仅供学习交流，切勿作他用）
-[下载地址](https://download-1301419202.cos.ap-guangzhou.myqcloud.com/app-debug.apk)<br>
+[下载地址](https://download-1301419202.cos.ap-guangzhou.myqcloud.com/ScheduleShare-debug.apk)<br>
 * 扫描二维码（特地弄成了APP的主题颜色，嘿嘿）<br>
 ![](https://download-1301419202.cos.ap-guangzhou.myqcloud.com/demo_download.png)
 
