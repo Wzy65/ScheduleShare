@@ -19,7 +19,7 @@
     <string name="about_title_txt">关于本APP(版本V1.0)</string>
     <string name="about_content_txt">\t\tSchedulingShare旨在分享和记录行程，起到一个提醒和共享的作用。\n
         \t\t用户可以在我的我的界面添加个人的行程信息，记录将保存在手机本地；
-        也可在右上角将其分享出去，分享的内容上传网络并且出现在发现界面，其他用户可以查看和评论。\n
+        也可在右上角将其分享出去，分享的内容上传网络并且出现在发现界面，其他用户可以查看和讨论。\n
         \t\t作为个人，可以将自己接下来的行程保存和分享，期待与看到它的人来一次偶然的相遇；\n
         \t\t作为组织，可以将接下来的一些重要活动详情共享出去，让更多人的知道。例如某场粉丝见面会，某场同学重聚会，某场爱好社见面会……\n
         \t\t作为官方，也可以将重要的事情公布于此，例如X月X日举行招聘会、在线笔试；X月X日是第几届中央重要会议的举行日；X月X日是国际某官方活动的颁布会……\n
@@ -126,6 +126,7 @@
     <string name="backup_left_btn">暂不备份</string>
     <string name="backup_right_btn">知道了，开始备份</string>
     <string name="backup_detail_fial">行程：%1$s上传失败</string>
+    <string name="backup_detail_error">行程空空如也，赶紧去创建一个吧！</string>
     <string name="backup_success">备份成功</string>
     <string name="backup_fail">备份失败或部分失败，请重试</string>
     <string name="backup_progress_title">加载</string>
@@ -231,7 +232,7 @@
 
     <!--显示详细行程内容界面ScheduleDetailActivity-->
     <string name="schedule_detail_title">请输入标题内容，不得多于20字</string>
-    <string name="schedule_detail_look_comment">查看评论</string>
+    <string name="schedule_detail_look_comment">查看讨论</string>
     <string name="schedule_detail_contint_hint">在这里输入内容</string>
     <string name="schedule_detail_startTxt">开始时间：</string>
     <string name="schedule_detail_endTxt">结束时间：</string>
@@ -265,11 +266,11 @@
     <!--分享行程的详情界面ShareScheduleDetailActivity-->
     <string name="share_schedule_detail_toolbar_menu_collect">添加到我的行程</string>
     <string name="share_schedule_detail_toolbar_menu_collect_cancel">取消添加</string>
-    <string name="share_schedule_detail_comment">评论</string>
-    <string name="share_schedule_detail_comment_hint">在这里添加你的评论</string>
-    <string name="share_schedule_detail_comment_add_error">评论内容不能为空</string>
-    <string name="share_schedule_detail_comment_add_success">评论成功</string>
-    <string name="share_schedule_detail_comment_add_fail">评论失败</string>
+    <string name="share_schedule_detail_comment">讨论</string>
+    <string name="share_schedule_detail_comment_hint">在这里添加你的讨论</string>
+    <string name="share_schedule_detail_comment_add_error">讨论内容不能为空</string>
+    <string name="share_schedule_detail_comment_add_success">讨论成功</string>
+    <string name="share_schedule_detail_comment_add_fail">讨论失败</string>
     <string name="comment_list_item_adapter_Image_positionKey">Iamge_position</string>
     <string name="share_schedule_detail_collect_success">添加成功</string>
     <string name="share_schedule_detail_collect_fail">添加失败</string>

@@ -146,6 +146,7 @@ public class SettingPresenterImpl extends BasePresenter<SettingActivity> impleme
                 if (e == null) {
                     mView.showToast(R.string.setting_update_success);
                     mView.updateSexy(str);
+                    EventBus.getDefault().post(new RefreshUserEvent());
                 } else {
                     mView.showToast(R.string.setting_update_fail);
                     Log.e(mView.getLocalClassName(), e.getMessage());

@@ -107,7 +107,6 @@ public class PersonalDetailFragment extends BaseFragment<PersonalPagePresenter> 
                     }
                     refreshScheduleList(mShareList);
                 }
-                Logger.i("点击第" + tab.getPosition() + "个选项" + "\n" + "列表总长度为：" + mList.size() + "\n" + "已分享总长度为：" + mShareList.size());
             }
 
             @Override

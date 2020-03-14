@@ -44,7 +44,8 @@ public class MainPagePresenterImpl extends BasePresenter<MainFragment> implement
 
     @Override
     public void queryShare(final List<ScheduleDetail> mList) {
-        String date = String.valueOf(System.currentTimeMillis());
+        long time=System.currentTimeMillis()-14400000;
+        String date = String.valueOf(time); //四小时前
         BmobQuery<ScheduleDetail> query = new BmobQuery<>();
         query.addWhereGreaterThan("startAt", date);
         query.order("startAt");

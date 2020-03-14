@@ -3,11 +3,14 @@ package com.wzy.scheduleshare.Setting.presenter.impl;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.wzy.scheduleshare.MainFourPage.event.RefreshUserEvent;
 import com.wzy.scheduleshare.base.modle.User;
 import com.wzy.scheduleshare.R;
 import com.wzy.scheduleshare.Setting.presenter.inter.BaseSettingPresenter;
 import com.wzy.scheduleshare.base.presenter.impl.BasePresenter;
 import com.wzy.scheduleshare.base.view.impl.BaseActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -54,6 +57,7 @@ public class BaseSettingPresenterImpl extends BasePresenter<BaseActivity> implem
             public void done(BmobException e) {
                 if (e == null) {
                     mView.showToast(R.string.setting_update_success);
+                    EventBus.getDefault().post(new RefreshUserEvent());
                     mView.finish();
                 } else {
                     mView.showToast(R.string.setting_update_fail);

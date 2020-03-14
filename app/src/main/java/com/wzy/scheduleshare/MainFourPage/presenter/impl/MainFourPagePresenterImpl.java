@@ -260,6 +260,7 @@ public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> imple
         private User user;
         private boolean isSuccess;
         private CountDownLatch countDownLatch;
+        private boolean isEmptyDetail=false;
 
         public BackupTask(MainActivity activity) {
             ref = new WeakReference<MainActivity>(activity);
@@ -274,6 +275,15 @@ public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> imple
                 return false;
             }
             List<ScheduleDetail> list = DBUtils.getINSTANCE(ref.get()).getAllDetail(user.getObjectId());
+            if(list==null || list.size()==0){
+                publishProgress(100);
+                Message msg=Message.obtain();
+                msg.what=1;
+                msg.obj=ref.get().getString(R.string.backup_detail_error);
+                mHandler.sendMessage(msg);
+                isEmptyDetail=true;
+                return false;
+            }
             countDownLatch = new CountDownLatch(list.size());
             if (list == null) {
                 publishProgress(100);
@@ -312,7 +322,7 @@ public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> imple
             }
             if (flag) {
                 ref.get().showToast(R.string.backup_success);
-            } else {
+            } else if(!flag && !isEmptyDetail){
                 ref.get().showToast(R.string.backup_fail);
             }
         }
@@ -370,6 +380,7 @@ public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> imple
                                         isSuccess = false;
                                         Message msg = Message.obtain();
                                         msg.obj = backup.getTitle();
+                                        msg.what=0;
                                         mHandler.sendMessage(msg);
                                         Logger.i("备份创建失败："+e.getMessage());
                                     } else {
@@ -386,6 +397,7 @@ public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> imple
                                         isSuccess = false;
                                         Message msg = Message.obtain();
                                         msg.obj = backup.getTitle();
+                                        msg.what=0;
                                         mHandler.sendMessage(msg);
                                         Logger.i("备份更新失败："+e.getMessage());
                                     }
@@ -396,6 +408,7 @@ public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> imple
                         isSuccess = false;
                         Message msg = Message.obtain();
                         msg.obj = d.getTitle();
+                        msg.what=0;
                         mHandler.sendMessage(msg);
                         Logger.i("备份失败："+e.getMessage());
                     }
@@ -445,6 +458,7 @@ public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> imple
             } catch (CosXmlClientException e) {
                 e.printStackTrace();
                 Message msg = Message.obtain();
+                msg.what=0;
                 msg.obj = localPath;
                 mHandler.sendMessage(msg);
                 isSuccess = false;
@@ -458,7 +472,14 @@ public class MainFourPagePresenterImpl extends BasePresenter<MainActivity> imple
         private Handler mHandler = new Handler() {
             @Override
             public void handleMessage(Message message) {
-                ref.get().showToast(String.format(ref.get().getString(R.string.backup_detail_fial), (String) message.obj));
+                switch (message.what){
+                    case 0:
+                        ref.get().showToast(String.format(ref.get().getString(R.string.backup_detail_fial), (String) message.obj));
+                        break;
+                    case 1:
+                        ref.get().showToast((String) message.obj);
+                        break;
+                }
             }
         };
 
