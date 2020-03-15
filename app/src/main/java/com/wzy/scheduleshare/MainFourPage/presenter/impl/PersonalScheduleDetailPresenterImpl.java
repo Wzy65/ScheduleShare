@@ -195,14 +195,14 @@ public class PersonalScheduleDetailPresenterImpl extends BasePresenter<PersonalS
     public void cancelShare(final ScheduleDetail detail) {
         if (!TextUtils.isEmpty(detail.getObjectId())) {
             mView.showProgress(true);
-            ScheduleDetail d = new ScheduleDetail();
             Logger.i("要删除的行程id" + detail.getObjectId());
-            Logger.i("上传删除的行程id" + d.getObjectId());
-            d.delete(detail.getObjectId(), new UpdateListener() {
+            detail.delete(detail.getObjectId(), new UpdateListener() {
                 @Override
                 public void done(BmobException e) {
                     if (e == null) {
-                        mView.showToast(R.string.schedule_detail_toast_cancle_share);
+                        //mView.showToast(R.string.schedule_detail_toast_cancle_share);
+                        detail.setStatus("0");
+                        DBUtils.getINSTANCE(mView).insert2Local(detail);
                         mView.invalidateOptionsMenu(); //刷新toolbar栏
                         EventBus.getDefault().post(new RefreshScheduleListEvent(detail));
                     } else {

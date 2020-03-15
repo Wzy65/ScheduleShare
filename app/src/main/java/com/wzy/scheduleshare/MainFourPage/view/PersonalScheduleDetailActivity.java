@@ -193,7 +193,7 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
                 break;
             case R.id.personal_schedule_detail_menu_save:
                 if (checkDate()) {
-                    saveDetail(mPresenter.getEditData(mScheduleDetailContnt), true,false);
+                    saveDetail(mPresenter.getEditData(mScheduleDetailContnt), true, false);
                 }
                 break;
             case R.id.personal_schedule_detail_menu_share:
@@ -216,6 +216,10 @@ public class PersonalScheduleDetailActivity extends BaseActivity<PersonalSchedul
         if (TextUtils.isEmpty(mScheduleDetailStartDate.getText()) || TextUtils.isEmpty(mScheduleDetailStartTime.getText()) ||
                 TextUtils.isEmpty(mScheduleDetailEndDate.getText()) || TextUtils.isEmpty(mScheduleDetailEndTime.getText())) {
             showToast(R.string.schedule_detail_noDate_error);
+            return false;
+        } else if (DateUtils.getStringToDate(mScheduleDetailStartDate.getText() + " " + mScheduleDetailStartTime.getText()) >
+                DateUtils.getStringToDate(mScheduleDetailEndDate.getText() + " " + mScheduleDetailEndTime.getText())) {
+            showToast(R.string.schedule_detail_graterDate_error);
             return false;
         }
         return true;

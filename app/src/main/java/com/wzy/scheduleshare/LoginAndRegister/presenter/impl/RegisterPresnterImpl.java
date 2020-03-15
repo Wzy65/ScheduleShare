@@ -30,7 +30,7 @@ public class RegisterPresnterImpl extends BasePresenter<RegisterActivity> implem
 
     @Override
     public boolean isUserIdValid(String userId) {
-        Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0-9]))\\d{8}$");
+        Pattern p = Pattern.compile("^1\\d{10}$");
         Matcher m = p.matcher(userId);
         return m.matches();
     }
